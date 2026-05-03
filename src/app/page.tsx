@@ -11,9 +11,12 @@ export default function Home() {
       <HUD />
       
       {/* Scrollable Container to drive GSAP & Framer Motion */}
-      {/* We need enough height to scroll through the 5 chapters. Let's make it 500vh */}
-      <div id="scroll-container" className="relative w-full h-[500vh] z-20 pointer-events-none">
-        {/* Invisible sections to give scroll context if needed, though heights dictate scroll length */}
+      {/* Increased height to 800vh to accommodate more sections: Intro, Experience, Projects, Achievements, Skills, Contact */}
+      <div id="scroll-container" className="relative w-full h-[800vh] z-20 pointer-events-none">
+        {/* Invisible sections to give scroll context */}
+        <section className="h-[100vh] w-full" />
+        <section className="h-[100vh] w-full" />
+        <section className="h-[100vh] w-full" />
         <section className="h-[100vh] w-full" />
         <section className="h-[100vh] w-full" />
         <section className="h-[100vh] w-full" />
