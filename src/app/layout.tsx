@@ -13,8 +13,20 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ashwin T E | Robotic Command Center",
-  description: "Cinematic 3D Portfolio of Ashwin T E - Mechatronics & Automation Engineer",
+  title: "Ashwin T E | Robotics & Embedded Systems Developer",
+  description: "Official Portfolio of Ashwin T E - Mechatronics & Automation Engineer specializing in Robotics and Embedded Systems.",
+  openGraph: {
+    title: "Ashwin T E | Portfolio",
+    description: "Mechatronics & Automation Engineer specializing in Robotics and Embedded Systems.",
+    type: "website",
+    locale: "en_US",
+    url: "https://ashwin-portfolio.vercel.app", // Placeholder
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Ashwin T E | Portfolio",
+    description: "Mechatronics & Automation Engineer specializing in Robotics and Embedded Systems.",
+  },
 };
 
 export default function RootLayout({
@@ -25,7 +37,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-white`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased text-white`}
       >
         {children}
       </body>
