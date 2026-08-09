@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, GitBranch } from "lucide-react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { Menu, X, GitBranch, Terminal } from "lucide-react";
 
 const LinkedInIcon = ({ size = 24 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
@@ -13,12 +13,13 @@ const LinkedInIcon = ({ size = 24 }: { size?: number }) => (
 export const NavBar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -29,106 +30,186 @@ export const NavBar = () => {
     { name: "Skills", href: "#skills" },
   ];
 
-  return (
-    <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        isScrolled
-          ? "py-4 bg-black/80 backdrop-blur-md border-b border-white/10"
-          : "py-6 bg-transparent"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="text-xl font-bold tracking-tighter silver-gradient-text"
-        >
-          ASHWIN T E
-        </motion.div>
+  const springConfig = {
+    type: "spring" as const,
+    damping: 20,
+    stiffness: 100,
+    duration: 0.4,
+  };
 
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              className="text-sm font-medium text-gray-400 hover:text-white transition-colors"
-            >
-              {link.name}
-            </a>
-          ))}
-          <div className="h-4 w-[1px] bg-white/20 mx-2" />
-          <div className="flex items-center gap-4">
-            <a
-              href="https://github.com/Ashwin312007"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-400 hover:text-cyan-400 transition-colors duration-300"
-            >
-              <GitBranch size={18} />
-            </a>
-            <a
-              href="https://www.linkedin.com/in/ashwin-t-e-410655240/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-400 hover:text-cyan-400 transition-colors duration-300"
-            >
-              <LinkedInIcon size={18} />
-            </a>
+  const fastSpring = {
+    type: "spring" as const,
+    damping: 15,
+    stiffness: 200,
+    duration: 0.25,
+  };
+
+  const openTerminal = () => {
+    window.dispatchEvent(new Event("open-terminal"));
+    setIsMobileMenuOpen(false);
+  };
+
+  return (
+    <>
+      <nav
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 flex flex-col ${
+          isScrolled
+            ? "bg-black/80 backdrop-blur-[20px] border-b border-[#00a3ff]/30 shadow-[0_4px_30px_rgba(0,163,255,0.1)]"
+            : "bg-transparent"
+        }`}
+      >
+        {/* Top Telemetry Ticker Banner */}
+        
+
+        <div className={`max-w-7xl mx-auto px-6 w-full flex justify-between items-center transition-all duration-300 ${isScrolled ? "py-4" : "py-6"}`}>
+          <motion.div
+            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={shouldReduceMotion ? { duration: 0.3 } : springConfig}
+            className="text-xl font-bold tracking-tighter text-white flex items-center gap-2"
+          >
+            <span>ASHWIN T E</span>
+            <span className="text-[#00a3ff] font-mono text-sm tracking-widest hidden sm:inline-block">
+              // ENGINEER
+            </span>
+          </motion.div>
+
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center gap-8">
+            {navLinks.map((link, index) => (
+              <motion.a
+                key={link.name}
+                href={link.href}
+                initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ ...springConfig, delay: index * 0.05 }}
+                whileHover={{ color: "#00a3ff", y: -2 }}
+                whileTap={{ scale: 0.97 }}
+                className="text-sm font-mono font-medium text-gray-400 transition-colors uppercase tracking-widest"
+              >
+                {link.name}
+              </motion.a>
+            ))}
+            <div className="h-4 w-[1px] bg-white/20 mx-2" />
+            <div className="flex items-center gap-4">
+              <motion.button
+                onClick={openTerminal}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="flex items-center gap-2 px-3 py-1.5 text-xs font-mono font-bold text-[#00a3ff] border border-[#00a3ff]/50 rounded hover:bg-[#00a3ff]/10 hover:shadow-[0_0_15px_rgba(0,163,255,0.3)] transition-all"
+              >
+                <Terminal size={14} />
+                TERMINAL CLI
+              </motion.button>
+              <motion.a
+                href="https://github.com/Ashwin312007"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.15, y: -2 }}
+                whileTap={{ scale: 0.9 }}
+                transition={fastSpring}
+                className="text-gray-400 hover:text-[#00a3ff] transition-colors duration-300"
+              >
+                <GitBranch size={18} />
+              </motion.a>
+              <motion.a
+                href="https://www.linkedin.com/in/ashwin-t-e-410655240/"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.15, y: -2 }}
+                whileTap={{ scale: 0.9 }}
+                transition={fastSpring}
+                className="text-gray-400 hover:text-[#00a3ff] transition-colors duration-300"
+              >
+                <LinkedInIcon size={18} />
+              </motion.a>
+            </div>
           </div>
+
+          {/* Mobile Menu Toggle */}
+          <motion.button
+            className="md:hidden text-white hover:text-[#00a3ff] transition-colors"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            transition={fastSpring}
+            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isMobileMenuOpen}
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </motion.button>
         </div>
 
-        {/* Mobile Menu Toggle */}
-        <button
-          className="md:hidden text-white"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        >
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-      </div>
-
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-black border-b border-white/10 overflow-hidden"
-          >
-            <div className="flex flex-col p-6 gap-4">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  className="text-lg font-medium text-gray-400"
-                  onClick={() => setIsMobileMenuOpen(false)}
+        {/* Mobile Menu */}
+        <AnimatePresence mode="wait">
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, height: 0 }}
+              animate={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, height: "auto" }}
+              exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, height: 0 }}
+              transition={{ type: "spring", bounce: 0, duration: 0.4 }}
+              className="md:hidden bg-black/95 backdrop-blur-[20px] border-b border-[#00a3ff]/30 overflow-hidden"
+            >
+              <div className="flex flex-col p-6 gap-6 font-mono">
+                {navLinks.map((link, index) => (
+                  <motion.a
+                    key={link.name}
+                    href={link.href}
+                    initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, x: 20 }}
+                    transition={{ ...springConfig, delay: index * 0.06 }}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="text-lg font-medium text-gray-400 hover:text-[#00a3ff] uppercase tracking-wider"
+                  >
+                    {link.name}
+                  </motion.a>
+                ))}
+                
+                <motion.div
+                  initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ ...springConfig, delay: navLinks.length * 0.06 }}
+                  className="pt-4 border-t border-[#00a3ff]/20"
                 >
-                  {link.name}
-                </a>
-              ))}
-              <div className="flex gap-6 mt-4 pt-4 border-t border-white/10">
-                <a
-                  href="https://github.com/Ashwin312007"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-400"
-                >
-                  <GitBranch size={24} />
-                </a>
-                <a
-                  href="https://www.linkedin.com/in/ashwin-t-e-410655240/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-400"
-                >
-                  <LinkedInIcon size={24} />
-                </a>
+                  <button
+                    onClick={openTerminal}
+                    className="w-full flex justify-center items-center gap-2 px-4 py-3 mb-6 text-sm font-bold text-black bg-[#00a3ff] hover:bg-[#00a3ff]/80 hover:shadow-[0_0_20px_rgba(0,163,255,0.4)] rounded transition-all"
+                  >
+                    <Terminal size={18} />
+                    LAUNCH TERMINAL
+                  </button>
+                  
+                  <div className="flex justify-center gap-8">
+                    <motion.a
+                      href="https://github.com/Ashwin312007"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      whileHover={{ scale: 1.2, y: -2 }}
+                      whileTap={{ scale: 0.9 }}
+                      transition={fastSpring}
+                      className="text-gray-400 hover:text-[#00a3ff]"
+                    >
+                      <GitBranch size={24} />
+                    </motion.a>
+                    <motion.a
+                      href="https://www.linkedin.com/in/ashwin-t-e-410655240/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      whileHover={{ scale: 1.2, y: -2 }}
+                      whileTap={{ scale: 0.9 }}
+                      transition={fastSpring}
+                      className="text-gray-400 hover:text-[#00a3ff]"
+                    >
+                      <LinkedInIcon size={24} />
+                    </motion.a>
+                  </div>
+                </motion.div>
               </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </nav>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </nav>
+    </>
   );
 };

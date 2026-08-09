@@ -1,32 +1,40 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
+  weight: ["400", "600", "700"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const jetBrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
+  weight: ["400", "600"],
 });
 
 export const metadata: Metadata = {
-  title: "Ashwin T E | Robotics & Embedded Systems Developer",
-  description: "Official Portfolio of Ashwin T E - Mechatronics & Automation Engineer specializing in Robotics and Embedded Systems.",
+  title: "Ashwin T E | Mechatronics, Robotics & Autonomous Systems Lead",
+  description: "Portfolio of Ashwin T E - R&D Lead at VIT Chennai OSP, NASA HERC Winner, ROS2 & Embedded Systems Specialist.",
   openGraph: {
     title: "Ashwin T E | Portfolio",
-    description: "Mechatronics & Automation Engineer specializing in Robotics and Embedded Systems.",
+    description: "R&D Lead at VIT Chennai OSP, NASA HERC Winner, ROS2 & Embedded Systems Specialist.",
     type: "website",
     locale: "en_US",
-    url: "https://ashwin-portfolio.vercel.app", // Placeholder
+    url: "https://ashwin-portfolio.vercel.app",
   },
   twitter: {
     card: "summary_large_image",
     title: "Ashwin T E | Portfolio",
-    description: "Mechatronics & Automation Engineer specializing in Robotics and Embedded Systems.",
+    description: "R&D Lead at VIT Chennai OSP, NASA HERC Winner, ROS2 & Embedded Systems Specialist.",
   },
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: '#06080e',
 };
 
 export default function RootLayout({
@@ -37,7 +45,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased text-white`}
+        className={`${spaceGrotesk.variable} ${jetBrainsMono.variable} antialiased text-white bg-[#08090d] min-h-screen selection:bg-[#00a3ff] selection:text-black`}
       >
         {children}
       </body>

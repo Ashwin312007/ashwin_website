@@ -1,160 +1,207 @@
 "use client";
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from "react";
+
+interface Particle {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  size: number;
+  alpha: number;
+}
 
 export const ParticleBackground: React.FC = () => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const mouseRef = useRef({ x: -1000, y: -1000 });
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     let animationFrameId: number;
-    let particles: Particle[] = [];
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+
+    const mouse = {
+      x: -1000,
+      y: -1000,
+      radius: 100,
+    };
+
+    const handleResize = () => {
+      if (!canvas) return;
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    };
 
     const handleMouseMove = (e: MouseEvent) => {
-      mouseRef.current = { x: e.clientX, y: e.clientY };
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-
-    const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      initParticles();
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
     };
 
-    class Particle {
-      x: number;
-      y: number;
-      size: number;
-      speedX: number;
-      speedY: number;
-      opacity: number;
-      baseOpacity: number;
-      isCyan: boolean;
-      pulseSpeed: number;
-      pulsePhase: number;
+    const handleMouseLeave = () => {
+      mouse.x = -1000;
+      mouse.y = -1000;
+    };
 
-      constructor() {
-        this.x = Math.random() * canvas!.width;
-        this.y = Math.random() * canvas!.height;
-        this.size = Math.random() * 2 + 0.5;
-        this.speedX = (Math.random() - 0.5) * 0.3;
-        this.speedY = (Math.random() - 0.5) * 0.3;
-        this.baseOpacity = Math.random() * 0.5 + 0.1;
-        this.opacity = this.baseOpacity;
-        this.isCyan = Math.random() < 0.15;
-        this.pulseSpeed = Math.random() * 0.02 + 0.005;
-        this.pulsePhase = Math.random() * Math.PI * 2;
-      }
+    window.addEventListener("resize", handleResize);
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseleave", handleMouseLeave);
 
-      update(time: number) {
-        this.opacity = this.baseOpacity + Math.sin(time * this.pulseSpeed + this.pulsePhase) * 0.15;
+    // Particle pool setup
+    const particleCount = Math.min(Math.floor((width * height) / 14000), 80);
+    const particles: Particle[] = [];
 
-        const mouse = mouseRef.current;
-        const dx = this.x - mouse.x;
-        const dy = this.y - mouse.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 150 && dist > 0) {
-          const force = (150 - dist) / 150;
-          this.x += (dx / dist) * force * 2;
-          this.y += (dy / dist) * force * 2;
-        }
-
-        this.x += this.speedX;
-        this.y += this.speedY;
-
-        if (this.x > canvas!.width) this.x = 0;
-        else if (this.x < 0) this.x = canvas!.width;
-
-        if (this.y > canvas!.height) this.y = 0;
-        else if (this.y < 0) this.y = canvas!.height;
-      }
-
-      draw() {
-        if (!ctx) return;
-        const color = this.isCyan
-          ? `rgba(0, 200, 255, ${this.opacity})`
-          : `rgba(255, 255, 255, ${this.opacity})`;
-        ctx.fillStyle = color;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-      }
+    for (let i = 0; i < particleCount; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
+        size: Math.random() * 2 + 1,
+        alpha: Math.random() * 0.05 + 0.35,
+      });
     }
 
-    const initParticles = () => {
-      particles = [];
-      const count = Math.min(Math.floor((canvas.width * canvas.height) / 15000), 120);
-      for (let i = 0; i < count; i++) {
-        particles.push(new Particle());
-      }
-    };
+    const maxDistance = 140;
 
-    const drawConnections = () => {
+    const render = () => {
+      ctx.clearRect(0, 0, width, height);
+
+      // Ambient radial spotlight following mouse
+      if (mouse.x > 0 && mouse.y > 0) {
+        const gradient = ctx.createRadialGradient(
+          mouse.x,
+          mouse.y,
+          0,
+          mouse.x,
+          mouse.y,
+          120
+        );
+        gradient.addColorStop(0, "rgba(0, 163, 255, 0.06)");
+        gradient.addColorStop(0.6, "rgba(0, 163, 255, 0.015)");
+        gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
+
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, width, height);
+      }
+
+      // Draw particle network connecting lines
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
           const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 120) {
-            const opacity = (1 - dist / 120) * 0.15;
-            const isCyanLine = particles[i].isCyan || particles[j].isCyan;
-            ctx!.strokeStyle = isCyanLine
-              ? `rgba(0, 200, 255, ${opacity})`
-              : `rgba(255, 255, 255, ${opacity})`;
-            ctx!.lineWidth = 0.5;
-            ctx!.beginPath();
-            ctx!.moveTo(particles[i].x, particles[i].y);
-            ctx!.lineTo(particles[j].x, particles[j].y);
-            ctx!.stroke();
+          const distSq = dx * dx + dy * dy;
+
+          if (distSq < maxDistance * maxDistance) {
+            const dist = Math.sqrt(distSq);
+            const lineAlpha = (1 - dist / maxDistance) * 0.25;
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = `rgba(0, 163, 255, ${lineAlpha})`;
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        }
+
+        // Connecting lines between particles and mouse cursor
+        if (mouse.x > 0 && mouse.y > 0) {
+          const dx = particles[i].x - mouse.x;
+          const dy = particles[i].y - mouse.y;
+          const distSq = dx * dx + dy * dy;
+
+          if (distSq < maxDistance * maxDistance) {
+            const dist = Math.sqrt(distSq);
+            const lineAlpha = (1 - dist / maxDistance) * 0.25;
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.strokeStyle = `rgba(0, 163, 255, ${lineAlpha})`;
+            ctx.lineWidth = 1;
+            ctx.stroke();
           }
         }
       }
-    };
 
-    let time = 0;
-    const animate = () => {
-      time++;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach(p => {
-        p.update(time);
-        p.draw();
-      });
-      drawConnections();
+      // Draw particles
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
 
-      // Mouse glow
-      const mouse = mouseRef.current;
-      if (mouse.x > 0 && mouse.y > 0) {
-        const gradient = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 200);
-        gradient.addColorStop(0, 'rgba(0, 200, 255, 0.03)');
-        gradient.addColorStop(1, 'rgba(0, 200, 255, 0)');
-        ctx.fillStyle = gradient;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        // Move
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // Wrap edges
+        if (p.x < 0) p.x = width;
+        if (p.x > width) p.x = 0;
+        if (p.y < 0) p.y = height;
+        if (p.y > height) p.y = 0;
+
+        // Distance to mouse
+        const dx = mouse.x - p.x;
+        const dy = mouse.y - p.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        let drawSize = p.size;
+        let drawAlpha = p.alpha;
+
+        if (dist < mouse.radius) {
+          const factor = 1 - dist / mouse.radius;
+          drawSize = p.size + factor * 2;
+          drawAlpha = Math.min(1, p.alpha + factor * 0.5);
+
+          // Subtle gentle repulsion from cursor
+          const angle = Math.atan2(dy, dx);
+          p.x -= Math.cos(angle) * factor * 0.8;
+          p.y -= Math.sin(angle) * factor * 0.8;
+        }
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, drawSize, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(0, 163, 255, ${drawAlpha})`;
+        ctx.shadowBlur = 4;
+        ctx.shadowColor = "rgba(0, 163, 255, 0.5)";
+        ctx.fill();
+        ctx.shadowBlur = 0;
       }
 
-      animationFrameId = requestAnimationFrame(animate);
+      animationFrameId = requestAnimationFrame(render);
     };
 
-    window.addEventListener('resize', resize);
-    resize();
-    animate();
+    render();
 
     return () => {
-      window.removeEventListener('resize', resize);
-      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseleave", handleMouseLeave);
       cancelAnimationFrame(animationFrameId);
     };
   }, []);
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="fixed inset-0 z-0 bg-black pointer-events-none"
-    />
+    <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-[#08090d]">
+      {/* Background ambient lighting */}
+      <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[radial-gradient(circle,rgba(0,163,255,0.05)_0%,transparent_70%)] blur-[100px]" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[radial-gradient(circle,rgba(0,163,255,0.03)_0%,transparent_70%)] blur-[100px]" />
+
+      {/* Grid Pattern Overlay */}
+      <div
+        className="absolute inset-0 opacity-40 z-0"
+        style={{
+          backgroundImage: `
+            linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px)
+          `,
+          backgroundSize: "40px 40px",
+        }}
+      />
+
+      {/* Interactive Particle Canvas */}
+      <canvas ref={canvasRef} className="absolute inset-0 z-10 w-full h-full" />
+    </div>
   );
 };
