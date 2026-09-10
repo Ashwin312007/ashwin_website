@@ -15,26 +15,27 @@ const jetBrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  icons: { icon: "/icon.svg" },
   title: "Ashwin T E | Mechatronics, Robotics & Autonomous Systems Lead",
-  description: "Portfolio of Ashwin T E - R&D Lead at VIT Chennai OSP, NASA HERC Winner, ROS2 & Embedded Systems Specialist.",
+  description: "Ashwin T E — mechatronics, embedded systems, and robotics. Explore NASA HERC engineering, autonomous systems, and two pending patent applications.",
   openGraph: {
     title: "Ashwin T E | Portfolio",
-    description: "R&D Lead at VIT Chennai OSP, NASA HERC Winner, ROS2 & Embedded Systems Specialist.",
+    description: "Mechatronics, embedded systems, and robotics. Projects, patent applications, and engineering contributions by Ashwin T E.",
     type: "website",
     locale: "en_US",
     url: "https://ashwin-portfolio.vercel.app",
   },
   twitter: {
-    card: "summary_large_image",
+    card: "summary",
     title: "Ashwin T E | Portfolio",
-    description: "R&D Lead at VIT Chennai OSP, NASA HERC Winner, ROS2 & Embedded Systems Specialist.",
+    description: "Mechatronics, embedded systems, and robotics. Projects, patent applications, and engineering contributions by Ashwin T E.",
   },
 };
 
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#06080e',
+  themeColor: '#090d14',
 };
 
 export default function RootLayout({
@@ -45,7 +46,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${spaceGrotesk.variable} ${jetBrainsMono.variable} antialiased text-white bg-[#08090d] min-h-screen selection:bg-[#00a3ff] selection:text-black`}
+        className={`${spaceGrotesk.variable} ${jetBrainsMono.variable}`}
       >
         {children}
       </body>
