@@ -2,27 +2,38 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { ArrowUpRight, X, Sparkles, Layers, Sliders, PlayCircle, Cpu } from "lucide-react";
+import {
+  ArrowUpRight,
+  X,
+  Sparkles,
+  Layers,
+  Sliders,
+  PlayCircle,
+  Cpu,
+  Box
+} from "lucide-react";
 import type { ProjectData } from "@/types";
 import { ModalFrame } from "./ModalFrame";
 import { BiomimicrySim } from "./BiomimicrySim";
+import { Project3DViewer } from "./Project3DViewer";
 
 interface ProjectModalProps {
   project: ProjectData | null;
+  initialTab?: "overview" | "cad3d" | "subsystems" | "specifications" | "simulation";
   onClose: () => void;
 }
 
-type ModalTab = "overview" | "subsystems" | "specifications" | "simulation";
+type ModalTab = "overview" | "cad3d" | "subsystems" | "specifications" | "simulation";
 
-export function ProjectModal({ project, onClose }: ProjectModalProps) {
-  const [activeTab, setActiveTab] = useState<ModalTab>("overview");
+export function ProjectModal({ project, initialTab = "overview", onClose }: ProjectModalProps) {
+  const [activeTab, setActiveTab] = useState<ModalTab>(initialTab);
 
-  // Reset tab when a new project opens
+  // Synchronize tab when a new project opens
   useEffect(() => {
     if (project) {
-      setActiveTab("overview");
+      setActiveTab(initialTab || "overview");
     }
-  }, [project]);
+  }, [project, initialTab]);
 
   if (!project) {
     return (
@@ -35,6 +46,7 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
   const hasSubsystems = Boolean(project.subsystems && project.subsystems.length > 0);
   const hasSpecs = Boolean(project.specifications && project.specifications.length > 0);
   const hasSim = Boolean(project.hasSimulation);
+  const has3D = Boolean(project.hasSimulation && project.simulationType);
 
   return (
     <ModalFrame open={Boolean(project)} onClose={onClose} labelId="project-dialog-title">
@@ -43,6 +55,11 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
           <div className="dialog-meta-row">
             <span className="status-label">{project.status}</span>
             <span className="category-label">{project.category}</span>
+            {has3D && (
+              <span className="card-3d-badge">
+                <Box size={11} aria-hidden="true" /> 3D CAD Available
+              </span>
+            )}
           </div>
           <h2 id="project-dialog-title">{project.title}</h2>
           {project.tagline && <p className="dialog-tagline">{project.tagline}</p>}
@@ -52,7 +69,7 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
         </button>
       </div>
 
-      {/* Aesthetic Tabs Bar */}
+      {/* Aesthetic Spatial Tabs Bar */}
       <div className="modal-tabs-bar" role="tablist" aria-label="Project detail sections">
         <button
           role="tab"
@@ -63,6 +80,18 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
           <Layers size={14} aria-hidden="true" />
           Overview & Highlights
         </button>
+
+        {has3D && (
+          <button
+            role="tab"
+            aria-selected={activeTab === "cad3d"}
+            className={`modal-tab-btn sim-tab-highlight ${activeTab === "cad3d" ? "active" : ""}`}
+            onClick={() => setActiveTab("cad3d")}
+          >
+            <Box size={14} aria-hidden="true" />
+            3D CAD Inspector
+          </button>
+        )}
 
         {hasSubsystems && (
           <button
@@ -92,50 +121,76 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
           <button
             role="tab"
             aria-selected={activeTab === "simulation"}
-            className={`modal-tab-btn sim-tab-highlight ${activeTab === "simulation" ? "active" : ""}`}
+            className={`modal-tab-btn ${activeTab === "simulation" ? "active" : ""}`}
             onClick={() => setActiveTab("simulation")}
           >
             <PlayCircle size={14} aria-hidden="true" />
-            Interactive Simulation
+            2D Wave Telemetry
           </button>
         )}
       </div>
 
       <div className="dialog-body">
-        {/* Render Image Banner if present */}
-        {project.image && (
-          <div className="project-image-showcase">
-            <div className="image-frame">
-              <Image
-                src={project.image}
-                alt={`Physical rendering of ${project.title}`}
-                width={800}
-                height={450}
-                className="showcase-img"
-                priority
-              />
-              <div className="image-caption-bar">
-                <span>Rendering & Prototype Model</span>
-                <span className="caption-tag">CAD / Physical Realization</span>
-              </div>
+        {/* Tab: 3D CAD Inspector */}
+        {activeTab === "cad3d" && project.simulationType && (
+          <div className="tab-pane">
+            <div style={{ marginBottom: 16 }}>
+              <h3 className="pane-section-title" style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <Box size={16} className="highlight-cyan" aria-hidden="true" />
+                Interactive 3D CAD Robotics Inspector
+              </h3>
+              <p style={{ fontSize: 13, color: "var(--muted)", margin: 0 }}>
+                Real-time WebGL inspection of kinematic assembly and actuators. Toggle wireframe, examine exploded subcomponents, and observe dynamic wave profiles.
+              </p>
             </div>
+            <Project3DViewer model={project.simulationType} />
           </div>
         )}
 
-        {/* Bio-Inspiration Aesthetic Callout */}
-        {project.bioInspiration && (
-          <div className="bio-inspiration-callout" role="region" aria-label="Biological Inspiration">
-            <div className="bio-callout-header">
-              <Sparkles size={16} className="bio-icon" aria-hidden="true" />
-              <strong>Biological Principle & Biomimicry Inspiration</strong>
-            </div>
-            <p className="bio-callout-text">{project.bioInspiration}</p>
-          </div>
-        )}
-
-        {/* Tab 1: Overview & Highlights */}
+        {/* Tab: Overview & Highlights */}
         {activeTab === "overview" && (
           <div className="tab-pane">
+            {/* Render Image Banner if present */}
+            {project.image && (
+              <div className="project-image-showcase">
+                <div className="image-frame">
+                  <Image
+                    src={project.image}
+                    alt={`Physical rendering of ${project.title}`}
+                    width={800}
+                    height={450}
+                    className="showcase-img"
+                    priority
+                  />
+                  <div className="image-caption-bar">
+                    <span>Physical Prototype & CAD Realization</span>
+                    {has3D ? (
+                      <button
+                        className="text-action"
+                        style={{ fontSize: 12, padding: 0 }}
+                        onClick={() => setActiveTab("cad3d")}
+                      >
+                        Inspect in 3D CAD →
+                      </button>
+                    ) : (
+                      <span className="caption-tag">Hardware Architecture</span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Bio-Inspiration Aesthetic Callout */}
+            {project.bioInspiration && (
+              <div className="bio-inspiration-callout" role="region" aria-label="Biological Inspiration">
+                <div className="bio-callout-header">
+                  <Sparkles size={16} className="bio-icon" aria-hidden="true" />
+                  <strong>Biological Principle & Biomimicry Inspiration</strong>
+                </div>
+                <p className="bio-callout-text">{project.bioInspiration}</p>
+              </div>
+            )}
+
             <p className="project-full-desc">{project.description}</p>
 
             <div className="dialog-columns">
@@ -160,7 +215,7 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
           </div>
         )}
 
-        {/* Tab 2: Subsystems */}
+        {/* Tab: Subsystems */}
         {activeTab === "subsystems" && hasSubsystems && (
           <div className="tab-pane">
             <h3 className="pane-section-title">Subsystem Architecture</h3>
@@ -175,7 +230,7 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
           </div>
         )}
 
-        {/* Tab 3: Specifications */}
+        {/* Tab: Specifications */}
         {activeTab === "specifications" && hasSpecs && (
           <div className="tab-pane">
             <h3 className="pane-section-title">Technical Specifications & Performance</h3>
@@ -190,7 +245,7 @@ export function ProjectModal({ project, onClose }: ProjectModalProps) {
           </div>
         )}
 
-        {/* Tab 4: Interactive Kinetic Simulation */}
+        {/* Tab: 2D Kinetic Telemetry Simulation */}
         {activeTab === "simulation" && hasSim && (
           <div className="tab-pane simulation-pane">
             <BiomimicrySim initialMode={project.simulationType} />

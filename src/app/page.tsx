@@ -9,8 +9,15 @@ import { ProjectModal } from "@/components/ProjectModal";
 import type { ProjectData } from "@/types";
 
 export default function Home() {
-  const [selectedProject,setSelectedProject] = useState<ProjectData | null>(null);
-  const [copyStatus,setCopyStatus] = useState("");
+  const [selectedProject, setSelectedProject] = useState<ProjectData | null>(null);
+  const [modalInitialTab, setModalInitialTab] = useState<"overview" | "cad3d" | "subsystems" | "specifications" | "simulation">("overview");
+  const [copyStatus, setCopyStatus] = useState("");
+
+  function handleSelectProject(project: ProjectData, initialTab: "overview" | "cad3d" = "overview") {
+    setSelectedProject(project);
+    setModalInitialTab(initialTab);
+  }
+
   async function copyEmail() {
     try { await navigator.clipboard.writeText("teashwin3@gmail.com"); setCopyStatus("Email address copied."); }
     catch { setCopyStatus("Couldn’t copy automatically. Select the email address to copy it, or click it to send a message."); }
@@ -20,7 +27,7 @@ export default function Home() {
     <NavBar/>
     <main id="main-content" tabIndex={-1}>
       <HeroSection/>
-      <BentoGrid onProjectSelect={setSelectedProject}/>
+      <BentoGrid onProjectSelect={handleSelectProject}/>
       <section className="shell contact-section" id="contact" aria-labelledby="contact-title">
         <div className="contact-top"><span className="availability"><span className="status-dot"/>Open to collaborations & research</span><span>Based in Chennai, building beyond it.</span></div>
         <h2 id="contact-title">Have something<br/>worth building?</h2>
@@ -36,7 +43,7 @@ export default function Home() {
       <button className="terminal-trigger" onClick={() => window.dispatchEvent(new Event("open-terminal"))}><Terminal size={14} aria-hidden="true"/>Open terminal</button>
       <a href="#about">Back to top ↑</a>
     </div></footer>
-    <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)}/>
+    <ProjectModal project={selectedProject} initialTab={modalInitialTab} onClose={() => setSelectedProject(null)}/>
     <CyberTerminal/>
   </>;
 }

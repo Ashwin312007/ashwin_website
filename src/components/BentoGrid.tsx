@@ -14,7 +14,8 @@ import {
   Gauge,
   Bot,
   Activity,
-  Layers
+  Layers,
+  Box
 } from "lucide-react";
 import type { ProjectData } from "@/types";
 import { PROJECTS_DATA, EXPERIENCE, CAPABILITIES } from "@/lib/portfolio";
@@ -55,13 +56,20 @@ function ProjectCard({
   onSelect
 }: {
   project: ProjectData;
-  onSelect: (project: ProjectData) => void;
+  onSelect: (project: ProjectData, initialTab?: "overview" | "cad3d") => void;
 }) {
   return (
     <article className="project-card">
       <div className="project-top">
         <span className="project-category-tag">{project.category}</span>
-        <span className="status-label">{project.status}</span>
+        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+          {project.hasSimulation && (
+            <span className="card-3d-badge">
+              <Box size={11} aria-hidden="true" /> 3D CAD
+            </span>
+          )}
+          <span className="status-label">{project.status}</span>
+        </div>
       </div>
 
       <h3>{project.title}</h3>
@@ -85,13 +93,13 @@ function ProjectCard({
       <div className="project-bottom">
         <button
           className="text-action"
-          onClick={() => onSelect(project)}
-          aria-label={`View ${project.title} details and kinematics`}
+          onClick={() => onSelect(project, project.hasSimulation ? "cad3d" : "overview")}
+          aria-label={`View ${project.title} details and 3D kinematics`}
         >
-          {project.hasSimulation ? "Explore & Simulate" : "View project"} <ArrowUpRight size={17} aria-hidden="true" />
+          {project.hasSimulation ? "Inspect in 3D" : "View project"} <ArrowUpRight size={17} aria-hidden="true" />
         </button>
         <span className="project-kind">
-          {project.hasSimulation ? "Kinetic Sim Included" : "Engineering overview"}
+          {project.hasSimulation ? "Interactive 3D CAD" : "Engineering overview"}
         </span>
       </div>
     </article>
@@ -101,7 +109,7 @@ function ProjectCard({
 export function BentoGrid({
   onProjectSelect
 }: {
-  onProjectSelect: (project: ProjectData) => void;
+  onProjectSelect: (project: ProjectData, initialTab?: "overview" | "cad3d") => void;
 }) {
   const [projectFilter, setProjectFilter] = useState<string>("all");
   const [capabilityCategory, setCapabilityCategory] = useState<string>("all");
@@ -170,7 +178,12 @@ export function BentoGrid({
               <div className="featured-content">
                 <div className="project-top">
                   <span className="project-category-tag highlight-emerald">{spotlightProject.category}</span>
-                  <span className="status-label">{spotlightProject.status}</span>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <span className="card-3d-badge">
+                      <Box size={11} aria-hidden="true" /> 3D CAD Inspector
+                    </span>
+                    <span className="status-label">{spotlightProject.status}</span>
+                  </div>
                 </div>
 
                 <h3>{spotlightProject.title}</h3>
@@ -193,11 +206,14 @@ export function BentoGrid({
                 <div className="project-bottom">
                   <button
                     className="text-action"
-                    onClick={() => onProjectSelect(spotlightProject)}
-                    aria-label="View Bio-Inspired Peristaltic In-Pipe Crawling Robot details and simulation"
+                    onClick={() => onProjectSelect(spotlightProject, "cad3d")}
+                    aria-label="Inspect Bio-Inspired Peristaltic In-Pipe Crawling Robot in 3D CAD and view specifications"
                   >
-                    Launch Interactive Simulation & Specs <ArrowUpRight size={17} aria-hidden="true" />
+                    Inspect in 3D CAD & Launch Specs <ArrowUpRight size={17} aria-hidden="true" />
                   </button>
+                  <span className="project-kind">
+                    Metameric 3D Assembly
+                  </span>
                 </div>
               </div>
 
