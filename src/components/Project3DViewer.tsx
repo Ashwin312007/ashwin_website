@@ -20,9 +20,7 @@ import {
   Pause,
   RotateCcw,
   Zap,
-  Box,
-  Eye,
-  SlidersHorizontal
+  Box
 } from "lucide-react";
 
 interface Project3DViewerProps {
@@ -210,7 +208,7 @@ function ArcherfishNozzleModel({
     }
   }, [pulseTrigger]);
 
-  useFrame((state, delta) => {
+  useFrame((state) => {
     const t = state.clock.getElapsedTime();
 
     // Overhead edge-vision targeting LED blink

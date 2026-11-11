@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
-import { Play, Pause, RotateCcw, Zap, Gauge, Waves, Activity, Sparkles } from "lucide-react";
+import { Play, Pause, RotateCcw, Zap, Waves, Activity, Sparkles } from "lucide-react";
 
 interface BiomimicrySimProps {
   initialMode?: "peristalsis" | "archerfish";
@@ -102,9 +102,6 @@ export function BiomimicrySim({ initialMode = "peristalsis", showModeToggle = tr
       const segmentRadii: number[] = [];
       const segmentPhases: number[] = [];
 
-      let dominantAnchor = -1;
-      let maxRadialRatio = 0;
-
       for (let i = 0; i < numSegments; i++) {
         // Phase shift between segments
         const phase = t * frequency * 2 * Math.PI * direction - i * (Math.PI / 2);
@@ -120,11 +117,6 @@ export function BiomimicrySim({ initialMode = "peristalsis", showModeToggle = tr
         const baseLen = 52;
         const currentLen = baseLen - (currentRadius - minRadius) * 0.65;
         segmentLengths.push(currentLen);
-
-        if (expansion > maxRadialRatio) {
-          maxRadialRatio = expansion;
-          dominantAnchor = i + 1;
-        }
       }
 
       const totalRobotLength = segmentLengths.reduce((a, b) => a + b, 0);
@@ -277,7 +269,7 @@ export function BiomimicrySim({ initialMode = "peristalsis", showModeToggle = tr
     }
 
     let animId: number;
-    let particles: Particle[] = [];
+    const particles: Particle[] = [];
     let pulseTime = 0;
     let orificeAperture = 1.0; // 1.0 down to 0.15 during pulse
 

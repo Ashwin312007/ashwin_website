@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import {
   ArrowUpRight,
@@ -26,14 +26,13 @@ interface ProjectModalProps {
 type ModalTab = "overview" | "cad3d" | "subsystems" | "specifications" | "simulation";
 
 export function ProjectModal({ project, initialTab = "overview", onClose }: ProjectModalProps) {
+  const [prevProject, setPrevProject] = useState(project);
   const [activeTab, setActiveTab] = useState<ModalTab>(initialTab);
 
-  // Synchronize tab when a new project opens
-  useEffect(() => {
-    if (project) {
-      setActiveTab(initialTab || "overview");
-    }
-  }, [project, initialTab]);
+  if (project !== prevProject) {
+    setPrevProject(project);
+    setActiveTab(initialTab || "overview");
+  }
 
   if (!project) {
     return (
@@ -130,7 +129,7 @@ export function ProjectModal({ project, initialTab = "overview", onClose }: Proj
         )}
       </div>
 
-      <div className="dialog-body">
+      <div className="dialog-body" data-lenis-prevent>
         {/* Tab: 3D CAD Inspector */}
         {activeTab === "cad3d" && project.simulationType && (
           <div className="tab-pane">

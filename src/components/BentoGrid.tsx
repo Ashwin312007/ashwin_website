@@ -6,15 +6,11 @@ import {
   ArrowUpRight,
   Plus,
   Cpu,
-  CircuitBoard,
   Trophy,
   Award,
   Sparkles,
-  Waves,
   Gauge,
   Bot,
-  Activity,
-  Layers,
   Box
 } from "lucide-react";
 import type { ProjectData } from "@/types";
@@ -217,33 +213,87 @@ export function BentoGrid({
                 </div>
               </div>
 
-              {/* Physical Render or Architecture diagram */}
-              <div className="feature-diagram spotlight-diagram" role="img" aria-label="Peristaltic Soft Robot Architecture">
-                <div className="diagram-title">
-                  <span>Metameric Locomotion Architecture</span>
-                  <Activity size={17} className="highlight-emerald" aria-hidden="true" />
-                </div>
+              {/* Visual Showcase: 3D CAD Render + Live Telemetry HUD */}
+              <div className="featured-visual-stage">
+                <div
+                  className="featured-image-container"
+                  onClick={() => onProjectSelect(spotlightProject, "cad3d")}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      onProjectSelect(spotlightProject, "cad3d");
+                    }
+                  }}
+                  aria-label="Inspect Bio-Inspired Peristaltic In-Pipe Crawling Robot in 3D CAD and Telemetry"
+                >
+                  <div className="featured-image-wrap">
+                    <Image
+                      src="/projects/earthworm-peristaltic-robot.png"
+                      alt="Bio-Inspired Peristaltic In-Pipe Crawling Robot 3D CAD Prototype"
+                      fill
+                      sizes="(max-width: 900px) 100vw, 550px"
+                      className="featured-cad-image"
+                      priority
+                    />
+                    <div className="featured-image-overlay" />
 
-                <div className="diagram-center">
-                  <strong>Retrograde Peristalsis</strong>
-                  <span>Alternating Radial Anchorage & Axial Stroke</span>
-                </div>
+                    <span className="card-3d-badge featured-badge">
+                      <Box size={12} aria-hidden="true" /> 3D CAD Prototype
+                    </span>
 
-                <div className="diagram-branches">
-                  <div>
-                    <strong>95A TPU Bellows</strong>
-                    <br />
-                    1.18 mm shell profile
+                    <div className="featured-hover-prompt">
+                      <span className="button button-primary featured-inspect-btn">
+                        Inspect in 3D CAD & Telemetry <ArrowUpRight size={15} aria-hidden="true" />
+                      </span>
+                    </div>
                   </div>
-                  <div>
-                    <strong>ESP32 RTOS</strong>
-                    <br />
-                    PWM wave sequencer
-                  </div>
-                </div>
 
-                <div className="diagram-note">
-                  Directional micro-setae arrays · Zero pipe jamming
+                  {/* Telemetry HUD Overlaid at Bottom */}
+                  <div className="telemetry-hud-overlay">
+                    <div className="telemetry-hud-header">
+                      <div className="telemetry-hud-title-wrap">
+                        <span className="telemetry-pulse-dot" aria-hidden="true" />
+                        <span className="telemetry-title">Peristaltic Wave Propagation</span>
+                      </div>
+                      <span className="telemetry-hud-metrics">Δφ = π/2 · v = 42 mm/s</span>
+                    </div>
+
+                    <div className="waveform-container" aria-hidden="true">
+                      <svg className="waveform-svg" viewBox="0 0 320 32" preserveAspectRatio="none">
+                        <defs>
+                          <linearGradient id="waveHudGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stopColor="#34d399" stopOpacity="0.3" />
+                            <stop offset="50%" stopColor="#38bdf8" stopOpacity="0.95" />
+                            <stop offset="100%" stopColor="#34d399" stopOpacity="0.3" />
+                          </linearGradient>
+                        </defs>
+                        <path
+                          className="waveform-path"
+                          d="M 0 16 Q 20 4, 40 16 T 80 16 T 120 16 T 160 16 T 200 16 T 240 16 T 280 16 T 320 16"
+                          fill="none"
+                          stroke="url(#waveHudGrad)"
+                          strokeWidth="2.5"
+                        />
+                        <path
+                          className="waveform-path-phase"
+                          d="M 0 16 Q 20 28, 40 16 T 80 16 T 120 16 T 160 16 T 200 16 T 240 16 T 280 16 T 320 16"
+                          fill="none"
+                          stroke="#34d399"
+                          strokeOpacity="0.4"
+                          strokeWidth="1.5"
+                          strokeDasharray="4 4"
+                        />
+                      </svg>
+                    </div>
+
+                    <div className="telemetry-pills">
+                      <span className="telemetry-pill">95A TPU Bellows (1.18mm)</span>
+                      <span className="telemetry-pill">ESP32 / STM32 RTOS</span>
+                      <span className="telemetry-pill">Directional Setae</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </article>
