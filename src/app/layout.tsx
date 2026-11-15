@@ -1,42 +1,24 @@
-import type { Metadata, Viewport } from "next";
+import type { Metadata } from "next";
 import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
-import { SmoothScroll } from "@/components/SmoothScroll";
 import "./globals.css";
+import { ExperienceProvider } from "@/context/ExperienceProvider";
 
 const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
   subsets: ["latin"],
-  weight: ["400", "600", "700"],
+  variable: "--font-space-grotesk",
+  display: "swap",
 });
 
-const jetBrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
+const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
-  weight: ["400", "600"],
+  variable: "--font-jetbrains-mono",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  icons: { icon: "/icon.svg" },
-  title: "Ashwin T E | Mechatronics, Robotics & Autonomous Systems Lead",
-  description: "Ashwin T E — mechatronics, embedded systems, and robotics. Explore NASA HERC engineering, autonomous systems, and two pending patent applications.",
-  openGraph: {
-    title: "Ashwin T E | Portfolio",
-    description: "Mechatronics, embedded systems, and robotics. Projects, patent applications, and engineering contributions by Ashwin T E.",
-    type: "website",
-    locale: "en_US",
-    url: "https://ashwin-portfolio.vercel.app",
-  },
-  twitter: {
-    card: "summary",
-    title: "Ashwin T E | Portfolio",
-    description: "Mechatronics, embedded systems, and robotics. Projects, patent applications, and engineering contributions by Ashwin T E.",
-  },
-};
-
-export const viewport: Viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  themeColor: '#090d14',
+  title: "Ashwin T E — Mechatronics & Robotics",
+  description:
+    "Portfolio of Ashwin T E. Mechatronics undergraduate at VIT Chennai building bio-inspired robots, ROS 2 autonomy, and embedded control systems.",
 };
 
 export default function RootLayout({
@@ -45,11 +27,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${spaceGrotesk.variable} ${jetBrainsMono.variable}`}
-      >
-        <SmoothScroll>{children}</SmoothScroll>
+    <html
+      lang="en"
+      className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} dark`}
+    >
+      <body className="min-h-screen bg-[#08080A] text-[#edf2fa] antialiased">
+        <ExperienceProvider>{children}</ExperienceProvider>
       </body>
     </html>
   );

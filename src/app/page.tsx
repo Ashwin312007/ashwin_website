@@ -1,49 +1,44 @@
 "use client";
-import { useState } from "react";
-import { Copy, Check, Terminal, ArrowUpRight } from "lucide-react";
-import { NavBar } from "@/components/NavBar";
-import { HeroSection } from "@/components/HeroSection";
-import { BentoGrid } from "@/components/BentoGrid";
-import { CyberTerminal } from "@/components/CyberTerminal";
-import { ProjectModal } from "@/components/ProjectModal";
-import type { ProjectData } from "@/types";
 
-export default function Home() {
-  const [selectedProject, setSelectedProject] = useState<ProjectData | null>(null);
-  const [modalInitialTab, setModalInitialTab] = useState<"overview" | "cad3d" | "subsystems" | "specifications" | "simulation">("overview");
-  const [copyStatus, setCopyStatus] = useState("");
+import React from "react";
+import dynamic from "next/dynamic";
+import { Grain } from "@/components/motion/Grain";
+import { EntryGate } from "@/components/motion/EntryGate";
+import { TopHUD } from "@/components/motion/TopHUD";
+import { Hero } from "@/components/motion/Hero";
+import { PointLinePlane } from "@/components/motion/PointLinePlane";
+import { RotaryWorkDial } from "@/components/motion/RotaryWorkDial";
+import { Capabilities } from "@/components/motion/Capabilities";
+import { Footer } from "@/components/motion/Footer";
+import { CyberTerminal } from "@/components/motion/CyberTerminal";
 
-  function handleSelectProject(project: ProjectData, initialTab: "overview" | "cad3d" = "overview") {
-    setSelectedProject(project);
-    setModalInitialTab(initialTab);
-  }
+const KineticStage = dynamic(
+  () =>
+    import("@/components/canvas/KineticStage").then((m) => m.KineticStage),
+  { ssr: false }
+);
 
-  async function copyEmail() {
-    try { await navigator.clipboard.writeText("teashwin3@gmail.com"); setCopyStatus("Email address copied."); }
-    catch { setCopyStatus("Couldn’t copy automatically. Select the email address to copy it, or click it to send a message."); }
-  }
-  return <>
-    <a className="skip-link" href="#main-content">Skip to content</a>
-    <NavBar/>
-    <main id="main-content" tabIndex={-1}>
-      <HeroSection/>
-      <BentoGrid onProjectSelect={handleSelectProject}/>
-      <section className="shell contact-section" id="contact" aria-labelledby="contact-title">
-        <div className="contact-top"><span className="availability"><span className="status-dot"/>Open to collaborations & research</span><span>Based in Chennai, building beyond it.</span></div>
-        <h2 id="contact-title">Have something<br/>worth building?</h2>
-        <div className="contact-bottom"><p>Robotics, embedded systems, or an idea that connects the two. Let’s talk.</p>
-          <div className="contact-actions"><a className="email-link" href="mailto:teashwin3@gmail.com">teashwin3@gmail.com</a><button className="copy-button" onClick={copyEmail} aria-label="Copy email address">{copyStatus === "Email address copied." ? <Check size={18} aria-hidden="true"/> : <Copy size={18} aria-hidden="true"/>}</button></div>
-        </div>
-        <p className="copy-status" role="status">{copyStatus}</p>
-      </section>
-    </main>
-    <footer className="shell site-footer"><span>© {new Date().getFullYear()} Ashwin T E</span><div className="footer-links">
-      <a href="https://github.com/Ashwin312007" target="_blank" rel="noopener noreferrer">GitHub <ArrowUpRight size={12} className="inline" aria-hidden="true"/></a>
-      <a href="https://www.linkedin.com/in/ashwin-t-e-410655240/" target="_blank" rel="noopener noreferrer">LinkedIn <ArrowUpRight size={12} className="inline" aria-hidden="true"/></a>
-      <button className="terminal-trigger" onClick={() => window.dispatchEvent(new Event("open-terminal"))}><Terminal size={14} aria-hidden="true"/>Open terminal</button>
-      <a href="#about">Back to top ↑</a>
-    </div></footer>
-    <ProjectModal project={selectedProject} initialTab={modalInitialTab} onClose={() => setSelectedProject(null)}/>
-    <CyberTerminal/>
-  </>;
+export default function Page() {
+  return (
+    <>
+      <a
+        href="#hero"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:border focus:border-white/20 focus:bg-[#08080A] focus:px-4 focus:py-2 focus:text-xs focus:font-mono focus:text-[#9bc1ff] focus:outline-none focus:ring-2 focus:ring-[#9bc1ff]"
+      >
+        Skip to main content
+      </a>
+      <main id="main-content" className="relative min-h-screen bg-[#08080A] text-[#edf2fa]">
+        <Grain />
+        <KineticStage />
+        <EntryGate />
+        <TopHUD />
+        <Hero />
+        <PointLinePlane />
+        <RotaryWorkDial />
+        <Capabilities />
+        <Footer />
+        <CyberTerminal />
+      </main>
+    </>
+  );
 }
