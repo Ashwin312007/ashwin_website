@@ -28,6 +28,21 @@ function getSnapshotMobile() {
   return window.matchMedia("(max-width: 768px)").matches;
 }
 
+function checkWebGLSupport(): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    const canvas = document.createElement("canvas");
+    return Boolean(
+      window.WebGLRenderingContext &&
+        (canvas.getContext("webgl2") ||
+          canvas.getContext("webgl") ||
+          canvas.getContext("experimental-webgl"))
+    );
+  } catch {
+    return false;
+  }
+}
+
 export function KineticStage() {
   const { hasEntered, motionEnabled, scrollStoreRef } = useExperience();
   const mouseRef = useMouseLight();
@@ -38,7 +53,27 @@ export function KineticStage() {
   );
 
   const [declined, setDeclined] = useState(false);
+  const [contextLost, setContextLost] = useState(false);
+  const [webglSupported] = useState(() =>
+    typeof window !== "undefined" ? checkWebGLSupport() : true
+  );
+  const [isVisible, setIsVisible] = useState(true);
 
+  // Pause WebGL rendering when page tab is hidden / not visible
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+
+    const onVisibilityChange = () => {
+      setIsVisible(!document.hidden);
+    };
+
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    return () => {
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+    };
+  }, []);
+
+  // Synchronize overall body scroll progress with the reactive scroll store
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -54,6 +89,33 @@ export function KineticStage() {
 
     return () => st.kill();
   }, [scrollStoreRef]);
+
+  // Progressive enhancement: if motion is disabled, WebGL is unsupported, or context was lost,
+  // DO NOT mount Canvas — render high-performance static CSS technical background
+  if (!motionEnabled || !webglSupported || contextLost) {
+    return (
+      <div
+        className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-[#08080A]"
+        aria-hidden="true"
+      >
+        <div
+          className="absolute inset-0 opacity-40"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.035) 1px, transparent 1px)",
+            backgroundSize: "64px 64px, 64px 64px",
+          }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse at 50% 30%, rgba(155, 193, 255, 0.05), transparent 70%)",
+          }}
+        />
+      </div>
+    );
+  }
 
   // Adaptive device pixel ratio based on device capability and live performance monitoring
   const dpr: [number, number] = isMobileGPU
@@ -78,7 +140,7 @@ export function KineticStage() {
     >
       <Canvas
         dpr={dpr}
-        frameloop={motionEnabled ? "always" : "demand"}
+        frameloop={!isVisible ? "never" : motionEnabled ? "always" : "demand"}
         camera={{ position: [0, 0, 5.8], fov: 44 }}
         gl={{
           antialias: true,
@@ -91,13 +153,21 @@ export function KineticStage() {
           const domElement = gl.domElement;
           const onContextLost = (e: Event) => {
             e.preventDefault();
-            console.warn("[WebGL] Context lost. Awaiting restoration...");
+            console.warn(
+              "[WebGL] Context lost. Gracefully falling back to static CSS background."
+            );
+            setContextLost(true);
           };
           const onContextRestored = () => {
             console.info("[WebGL] Context restored successfully.");
+            setContextLost(false);
           };
           domElement.addEventListener("webglcontextlost", onContextLost, false);
-          domElement.addEventListener("webglcontextrestored", onContextRestored, false);
+          domElement.addEventListener(
+            "webglcontextrestored",
+            onContextRestored,
+            false
+          );
         }}
       >
         <color attach="background" args={["#08080A"]} />

@@ -1,15 +1,29 @@
 "use client";
 
-import React, { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown, Sparkles } from "lucide-react";
-import { CAPABILITIES } from "@/data/capabilities";
+import React from "react";
+import {
+  Bot,
+  Activity,
+  Boxes,
+  Cpu,
+  Eye,
+  Zap,
+  Sparkles,
+} from "lucide-react";
+import { CAPABILITIES, CapabilityRecord } from "@/data/capabilities";
 import { useExperience } from "@/context/ExperienceProvider";
-import { CursorPreview } from "@/components/motion/CursorPreview";
+
+const CAPABILITY_GLYPHS: Record<CapabilityRecord["glyphType"], React.ReactNode> = {
+  ros2: <Bot className="h-4 w-4 text-[#38bdf8]" />,
+  ekf: <Activity className="h-4 w-4 text-[#a78bfa]" />,
+  cad: <Boxes className="h-4 w-4 text-[#34d399]" />,
+  embedded: <Cpu className="h-4 w-4 text-[#f59e0b]" />,
+  vision: <Eye className="h-4 w-4 text-[#ec4899]" />,
+  electronics: <Zap className="h-4 w-4 text-[#eab308]" />,
+};
 
 export function Capabilities() {
   const { setHoveredCapability } = useExperience();
-  const [openIndex, setOpenIndex] = useState<string>("01");
 
   return (
     <section
@@ -18,117 +32,82 @@ export function Capabilities() {
       className="relative z-10 py-24 sm:py-32"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-8">
-        <div className="flex flex-wrap items-baseline justify-between gap-4 rounded-2xl border border-white/10 bg-[#080d1a]/80 p-6 backdrop-blur-md mb-6">
+        {/* Section Header */}
+        <div className="flex flex-wrap items-baseline justify-between gap-4 rounded-2xl border border-white/10 bg-[#080d1a]/80 p-6 backdrop-blur-md mb-8">
           <div>
-            <span className="font-mono text-xs uppercase tracking-wider text-[#9bc1ff]">
-              Technical Toolkit & Disciplines
-            </span>
+            <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-[#9bc1ff]">
+              <Sparkles className="h-3.5 w-3.5 text-[#38bdf8]" />
+              <span>Technical Toolkit & Disciplines</span>
+            </div>
             <h2 className="mt-1 text-3xl font-medium tracking-tight text-white sm:text-5xl">
-              What I build with
+              Capabilities & Stack
             </h2>
           </div>
-          <span className="font-mono text-xs text-white/45">01 — 06</span>
+          <span className="font-mono text-xs text-white/45">01 — 06 Disciplines</span>
         </div>
 
-        <div className="space-y-4 pt-6">
-          {CAPABILITIES.map((cap) => {
-            const isOpen = openIndex === cap.index;
-            return (
-              <div
-                key={cap.index}
-                onMouseEnter={() => setHoveredCapability(cap)}
-                className={`liquid-glass-frame rounded-2xl px-6 sm:px-8 transition-all duration-300 ${
-                  isOpen
-                    ? "border-[#38bdf8]/40 shadow-[0_8px_32px_rgba(56,189,248,0.18)]"
-                    : "border-white/10 hover:border-white/20"
-                }`}
-              >
-                <button
-                  type="button"
-                  id={`capability-btn-${cap.index}`}
-                  aria-expanded={isOpen}
-                  aria-controls={`capability-panel-${cap.index}`}
-                  onClick={() => setOpenIndex(isOpen ? "" : cap.index)}
-                  className="flex w-full cursor-pointer items-center justify-between gap-4 py-6 text-left outline-none"
-                >
-                  <div className="flex items-baseline gap-6 sm:gap-12">
-                    <span
-                      className={`font-mono text-2xl tabular-nums transition-colors sm:text-3xl ${
-                        isOpen
-                          ? "text-[#9bc1ff]"
-                          : "text-white/30 group-hover:text-white/60"
-                      }`}
-                    >
+        {/* 6-Card Responsive Grid (All visible without clicking) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {CAPABILITIES.map((cap) => (
+            <div
+              key={cap.index}
+              onMouseEnter={() => setHoveredCapability(cap)}
+              className="liquid-glass-frame rounded-2xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 hover:border-white/30 hover:shadow-[0_8px_32px_rgba(56,189,248,0.15)] group"
+            >
+              <div>
+                {/* Header: Index & Glyph */}
+                <div className="flex items-center justify-between pb-4 border-b border-white/10">
+                  <div className="flex items-center gap-2.5">
+                    <span className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/15 bg-white/5 font-mono text-xs font-semibold text-[#9bc1ff] group-hover:border-[#9bc1ff]/60 group-hover:bg-[#9bc1ff]/10 transition-colors">
                       {cap.index}
                     </span>
-                    <div>
-                      <h3 className="text-xl font-medium tracking-tight text-white sm:text-2xl">
-                        {cap.title}
-                      </h3>
-                      <p className="mt-1 text-xs text-white/45 sm:text-sm md:hidden">
-                        {cap.subtitle}
-                      </p>
-                    </div>
+                    <span className="font-mono text-xs text-white/40">Domain</span>
                   </div>
 
-                  <div className="flex items-center gap-6">
-                    <span className="hidden text-sm text-white/45 md:inline">
-                      {cap.subtitle}
-                    </span>
-                    <ChevronDown
-                      className={`h-4 w-4 text-white/40 transition-transform duration-300 ${
-                        isOpen ? "rotate-180 text-[#9bc1ff]" : "group-hover:text-white"
-                      }`}
-                    />
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/5">
+                    {CAPABILITY_GLYPHS[cap.glyphType]}
                   </div>
-                </button>
+                </div>
 
-                <AnimatePresence initial={false}>
-                  {isOpen && (
-                    <motion.div
-                      id={`capability-panel-${cap.index}`}
-                      role="region"
-                      aria-labelledby={`capability-btn-${cap.index}`}
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-                      className="overflow-hidden"
+                {/* Title & Subtitle */}
+                <h3 className="mt-5 text-xl font-medium tracking-tight text-white sm:text-2xl">
+                  {cap.title}
+                </h3>
+                <p className="mt-1 text-xs text-[#9bc1ff] font-mono">
+                  {cap.subtitle}
+                </p>
+
+                {/* Deep Engineering Description */}
+                <p className="mt-4 text-xs sm:text-sm text-[#9caec5] leading-relaxed">
+                  {cap.description}
+                </p>
+
+                {/* Skill Badges */}
+                <div className="mt-5 flex flex-wrap gap-1.5 pt-4 border-t border-white/5">
+                  {cap.skills.map((skill) => (
+                    <span
+                      key={skill}
+                      className="rounded-md border border-white/10 bg-white/5 px-2.5 py-1 font-mono text-[11px] text-white/75"
                     >
-                      <div className="pb-8 pl-12 pr-4 sm:pl-20 sm:pr-8 space-y-4">
-                        <p className="max-w-3xl text-sm leading-relaxed text-[#9caec5]">
-                          {cap.description}
-                        </p>
-
-                        {/* Skills Pill Badges */}
-                        <div className="flex flex-wrap gap-2 pt-2">
-                          {cap.skills.map((skill) => (
-                            <span
-                              key={skill}
-                              className="rounded-full border border-white/12 bg-white/5 px-3 py-1 font-mono text-xs text-white/70"
-                            >
-                              {skill}
-                            </span>
-                          ))}
-                        </div>
-
-                        {/* Applied In Projects row */}
-                        <div className="flex items-center gap-2 pt-2 text-xs font-mono text-[#9bc1ff]">
-                          <Sparkles className="h-3.5 w-3.5 shrink-0" />
-                          <span className="text-white/40">Applied in:</span>
-                          <span className="text-white/80">{cap.appliedIn.join(" · ")}</span>
-                        </div>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                      {skill}
+                    </span>
+                  ))}
+                </div>
               </div>
-            );
-          })}
+
+              {/* Applied In Projects Footer */}
+              <div className="mt-6 pt-4 border-t border-white/10">
+                <div className="flex items-start gap-2 text-xs font-mono">
+                  <span className="text-white/40 shrink-0">Applied in:</span>
+                  <span className="text-[#c6d7eb] leading-snug">
+                    {cap.appliedIn.join(" · ")}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
-
-      <CursorPreview />
     </section>
   );
 }

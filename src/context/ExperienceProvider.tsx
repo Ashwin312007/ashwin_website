@@ -9,6 +9,7 @@ import React, {
   useState,
 } from "react";
 import { useLenisGSAP } from "@/hooks/useLenisGSAP";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { CapabilityRecord } from "@/data/capabilities";
 
 export interface ScrollStore {
@@ -37,19 +38,52 @@ export interface ExperienceContextValue {
 
 const ExperienceContext = createContext<ExperienceContextValue | null>(null);
 
+function isInputOrEditable(element: Element | null): boolean {
+  if (!element) return false;
+  const tagName = element.tagName.toUpperCase();
+  if (tagName === "INPUT" || tagName === "TEXTAREA" || tagName === "SELECT") {
+    return true;
+  }
+  if (
+    (element as HTMLElement).isContentEditable ||
+    element.getAttribute("contenteditable") === "true" ||
+    element.getAttribute("contenteditable") === ""
+  ) {
+    return true;
+  }
+  return false;
+}
+
 export function ExperienceProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [hasEntered, setHasEntered] = useState(false);
-  const motionEnabled = true;
+  // Default to true immediately (no blocking gate)
+  const [hasEntered, setHasEntered] = useState(true);
+
+  // Motion preference: respects OS prefers-reduced-motion, with explicit manual user toggle support
+  const prefersReduced = useReducedMotion();
+  const [userMotionOverride, setUserMotionOverride] = useState<boolean | null>(
+    null
+  );
+
+  const motionEnabled =
+    userMotionOverride !== null ? userMotionOverride : !prefersReduced;
+
+  const toggleMotion = useCallback(() => {
+    setUserMotionOverride((prev) => {
+      const current = prev !== null ? prev : !prefersReduced;
+      return !current;
+    });
+  }, [prefersReduced]);
+
   const [terminalOpen, setTerminalOpen] = useState(false);
   const [hoveredCapability, setHoveredCapability] =
     useState<CapabilityRecord | null>(null);
 
   const scrollStoreRef = useRef<ScrollStore>({
-    gateProgress: 0,
+    gateProgress: 1,
     scrollProgress: 0,
     narrativeMorph: 0,
     dialDockProgress: 0,
@@ -58,30 +92,31 @@ export function ExperienceProvider({
     activeAccent: "#34d399",
   });
 
-  const { scrollTo, setPaused: setScrollPaused } = useLenisGSAP(hasEntered);
+  const { scrollTo, setPaused: setScrollPaused } = useLenisGSAP(
+    hasEntered,
+    motionEnabled
+  );
 
-  // Global backtick (`) and Escape key listener
+  // Global backtick (`) and tilde (~) shortcut listener
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "`" || e.key === "~") {
-        const activeTag = (document.activeElement as HTMLElement)?.tagName || "";
-        const isInputField = ["INPUT", "TEXTAREA"].includes(activeTag);
+        const target = e.target as Element | null;
+        const active = document.activeElement;
 
-        if (terminalOpen) {
-          e.preventDefault();
-          setTerminalOpen(false);
+        // Never trigger if user is focused or typing inside an input, textarea, or contenteditable
+        if (isInputOrEditable(target) || isInputOrEditable(active)) {
           return;
         }
 
-        if (!isInputField) {
-          e.preventDefault();
-          setTerminalOpen(true);
-        }
+        e.preventDefault();
+        setTerminalOpen((prev) => !prev);
       } else if (e.key === "Escape" && terminalOpen) {
         e.preventDefault();
         setTerminalOpen(false);
       }
     };
+
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [terminalOpen]);
@@ -99,7 +134,7 @@ export function ExperienceProvider({
         hoveredCapability,
         scrollStoreRef,
         enterExperience,
-        toggleMotion: () => {},
+        toggleMotion,
         setTerminalOpen,
         setHoveredCapability,
         scrollTo,

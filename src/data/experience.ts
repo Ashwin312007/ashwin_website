@@ -22,7 +22,7 @@ export const EXPERIENCE: ExperienceRecord[] = [
     location: "Chennai, India",
     type: "Teaching",
     highlights: [
-      "Designed and delivered a two-day, two-module hands-on workshop on ROS 2, covering fundamentals through intermediate topics including URDF/Xacro and live teleoperation.",
+      "Designed and delivered an intensive two-day, two-module hands-on workshop on ROS 2 Humble/Jazzy for 40+ engineering students, covering middleware architecture, ros2_control, URDF/Xacro modeling, and teleoperation.",
     ],
   },
   {
@@ -32,18 +32,18 @@ export const EXPERIENCE: ExperienceRecord[] = [
     location: "Chennai, India",
     type: "Internship",
     highlights: [
-      "Applied CAD modeling and Design for Manufacturing (DFM) principles, observing VMC processes, fixtures, and high-volume production workflows on the shop floor.",
+      "Applied CAD modeling and Design for Manufacturing (DFM) principles, studying high-volume production workflows, vertical machining center (VMC) tooling, and precision assembly fixtures on the shop floor.",
     ],
   },
   {
     period: "2025 – 2026",
     role: "Team Head, Software & Electrical Lead",
     organization: "Team MOVIS — NASA Human Exploration Rover Challenge 2026",
-    location: "VIT Chennai / Huntsville, AL",
+    location: "Huntsville, AL / VIT Chennai",
     type: "Leadership",
     highlights: [
-      "Led a 30+ member team to a 6th-place global finish (Best Indian Team, fastest run 7:02), responsible for all software and electrical systems.",
-      "Designed and built the rover's custom Power Distribution Board (PDB) and ran structural FEA on load-bearing rover components.",
+      "Led a 30+ member multidisciplinary team to a 6th-place global finish (Remote-Controlled Division) and 'Best Indian Team' award at NASA HERC in Huntsville, AL, achieving a 7:02 fastest course run.",
+      "Architected and routed the rover's custom high-current Power Distribution Board (PDB) isolating motor noise from avionics, and conducted structural FEA on suspension arms and chassis load paths.",
     ],
   },
   {
@@ -53,7 +53,7 @@ export const EXPERIENCE: ExperienceRecord[] = [
     location: "Perungudi, Chennai",
     type: "Internship",
     highlights: [
-      "Contributed to the Pick2Lite industrial hardware/IoT product, supporting embedded C/C++ logic (STM32/ESP-IDF) and electronic system architecture.",
+      "Contributed to the Pick2Lite industrial hardware/IoT product, developing deterministic embedded C/C++ logic (STM32/ESP-IDF) and verifying RS-485/Modbus industrial communication bus architecture.",
     ],
   },
   {
@@ -63,7 +63,7 @@ export const EXPERIENCE: ExperienceRecord[] = [
     location: "Chennai, India",
     type: "Leadership",
     highlights: [
-      "Coordinate technical activities, recruitment drives, hands-on workshops, and autonomous-vehicle projects while mentoring student teams in robotics and embedded systems.",
+      "Coordinate technical roadmap, recruitment, hands-on robotics workshops, and autonomous-vehicle project tracks while mentoring collegiate teams in ROS 2, CAD/FEA, and embedded systems.",
     ],
   },
 ];
@@ -73,30 +73,42 @@ export const ACHIEVEMENTS: AchievementRecord[] = [
     metric: "06TH GLOBALLY",
     title: "NASA Human Exploration Rover Challenge 2026",
     organization: "NASA · Huntsville, AL",
-    detail: "Remote-Controlled Division · Best Indian Team · Fastest run 7:02",
+    detail: "Remote-Controlled Division · Best Indian Team · 7:02 Fastest Course Run",
+  },
+  {
+    metric: "PATENT PENDING",
+    title: "Multi-Modal Agri-Sorter Optical & Density Grader",
+    organization: "Institutional IPR Cell",
+    detail: "850nm NIR active illumination + 24-bit NAU7802 mass & ultrasonic sizing system",
+  },
+  {
+    metric: "PATENT PENDING",
+    title: "Portable Non-Contact Air-Puff Tonometer",
+    organization: "Institutional IPR Cell",
+    detail: "Micro-pneumatic rapid solenoid pulse & corneal applanation optoelectronics",
   },
   {
     metric: "SEMI-FINALIST",
     title: "Caterpillar Autonomy Challenge",
     organization: "IIT Madras & Caterpillar",
-    detail: "Hardware and autonomous systems integration role",
+    detail: "Autonomous navigation stack and hardware systems integration role",
   },
   {
     metric: "01ST PLACE",
     title: "REVIVE 2024 National Hackathon",
     organization: "National Level",
-    detail: "1st Place Winner · Hardware and embedded systems build",
+    detail: "1st Place Winner · Rapid embedded hardware and sensor integration build",
   },
   {
     metric: "03RD PLACE",
     title: "Innovate National Hackathon",
     organization: "National Level",
-    detail: "3rd Place Nationally · Rapid mechatronic prototyping",
+    detail: "3rd Place Nationally · Mechatronic rapid prototyping and control",
   },
   {
     metric: "FINALIST",
     title: "Project Expo — BITS Hyderabad",
     organization: "BITS Pilani, Hyderabad Campus",
-    detail: "Selected national finalist for applied robotics engineering",
+    detail: "Selected national finalist for applied robotics engineering demonstration",
   },
 ];

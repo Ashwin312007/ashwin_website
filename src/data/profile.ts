@@ -1,14 +1,13 @@
 export const PROFILE = {
   name: "Ashwin T E",
   monogram: "A.TE",
-  headline: "Mechatronics & Automation · Bio-Inspired Robotics · Embedded Systems",
+  headline: "Mechatronics student building bio-inspired robots and embedded control systems.",
   status: "SEEKING SUMMER 2027 INTERNSHIP",
   location: "CHENNAI, IN (13.08° N, 80.27° E)",
   focus: "BIO-INSPIRED ROBOTICS · EMBEDDED CONTROL",
   objective:
-    "Third-year Mechatronics undergraduate seeking a Summer 2027 internship in robotics, bio-inspired systems, or embedded control. Currently designing a tendon-driven, earthworm-inspired peristaltic robot for confined-space locomotion, with experience across CAD/FEA, embedded control, state estimation, and ROS 2.",
+    "Mechatronics undergraduate building bio-inspired robotic locomotion mechanisms and real-time embedded control systems. Sizing, simulating, and prototyping compliant crawlers, pneumatic medical devices, and autonomous rovers with rigorous CAD/FEA, state-space control, and ROS 2 middleware.",
   email: "teashwin3@gmail.com",
-  phone: "+91 88256 77628",
   portfolioUrl: "https://ashwinte.vercel.app",
   githubUrl: "https://github.com/Ashwin312007",
   linkedinUrl: "https://www.linkedin.com/in/ashwin-t-e-410655240",
@@ -43,7 +42,7 @@ export const PROFILE = {
       subtitle: "Full Mechatronic Architecture",
       title: "Field-Validated Autonomous Machines",
       body: "Control laws expand into complete physical machines—from a 3-segment peristaltic pipe crawler in Gazebo/Webots to our 6th-place global finish at NASA HERC 2026 with a custom Power Distribution Board and FEA-verified structure.",
-      metric: "6th Globally (NASA HERC 2026 · 7:02 fastest run)",
+      metric: "6th Globally (NASA HERC 2026 · 7:02 fastest run · Best Indian Team)",
     },
   ],
 } as const;

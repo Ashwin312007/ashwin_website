@@ -1,4 +1,4 @@
-# ⚡ Ashwin T E — Autonomous Systems & Mechatronics R&D Engineer
+# ⚡ Ashwin T E — Mechatronics & Bio-Inspired Robotics Portfolio
 
 <div align="center">
 
@@ -11,171 +11,152 @@
 
   <br />
 
-  **Official personal website & interactive portfolio for Ashwin T E**  
-  *Mechatronics R&D | Autonomous Systems | Embedded Systems & Firmware | Robotics*
-
-  <a href="https://github.com/Ashwin312007/ashwin_website"><strong>Explore the Repository »</strong></a>
+  **Official personal engineering portfolio & research showcase for Ashwin T E**  
+  *Mechatronics & Automation Undergraduate @ VIT Chennai (Class of 2028)*  
+  *Bio-Inspired Robotics · Animal-Inspired Locomotion · Embedded Control Systems · State Estimation*
 
   <br />
-  <br />
 
-  [🌐 Live Portfolio](https://github.com/Ashwin312007/ashwin_website) · [📫 Contact Ashwin](mailto:teashwin3@gmail.com) · [💼 LinkedIn Profile](https://www.linkedin.com/in/ashwin-t-e-410655240/)
+  [🌐 Live Website](https://ashwinte.vercel.app/) · [📫 Contact Ashwin](mailto:teashwin3@gmail.com) · [💼 LinkedIn Profile](https://www.linkedin.com/in/ashwin-t-e-410655240) · [🐙 GitHub](https://github.com/Ashwin312007)
 
 </div>
 
 ---
 
-## 📌 Overview
+## 📌 Professional Identity & Value Statement
 
-This repository contains the source code for **Ashwin T E's** high-performance interactive portfolio. Designed with a futuristic dark aesthetic, glassmorphism UI elements, micro-animations, and real-time interactive components, it highlights Ashwin's engineering journey, patents, hardware/software R&D projects, and leadership roles across robotics and autonomous systems.
+> **"Mechatronics student building bio-inspired robots and embedded control systems."**
 
-### 🌟 About Ashwin T E
-- **Secretary & Engineering Lead** @ AutoVIT Club (VIT Chennai)
-- **Advisory Board Member & Former Programming Lead** @ Team MOVIS (NASA HERC 6th Place Global & Best Indian Team)
-- **Former R&D Lead** @ VIT Chennai Open Source Programming (OSP) Club
-- **Student In-Charge** @ ATAL Tinkering Lab (Govt. of India Initiative)
-- **Patents Pending**: Automated Agri-Sorter (Agri-Tech/Vision) & Portable Air-Puff Tonometer (Medical Devices)
+This portfolio is engineered specifically for **robotics R&D recruiters, research professors, and graduate admissions reviewers**. It prioritizes **real engineering proof, design decisions, and physical constraints** over decorative interface animations.
 
----
-
-## 🚀 Key Features
-
-- 🌌 **Particle Physics Canvas**: Interactive canvas background featuring fluid-connected particle physics that respond gracefully to cursor hover and motion.
-- ⚡ **Interactive Cyber Terminal CLI**: Floating command-line interface allowing users to query bio details, skill matrices, projects, and contact info directly via text commands.
-- 🍱 **Glassmorphism Bento Grid**: Clean modular layout showcasing work experience, skill breakdown with animated proficiency meters, key achievements, and patents.
-- 🔍 **Deep-Dive Specification Modals**: Interactive modal popups providing granular technical specifications, project highlights, and hardware/software stack details for featured projects.
-- 📱 **Fully Responsive & Accessible**: Optimized for all device viewports with full support for reduced-motion preferences (`prefers-reduced-motion`).
-- 🎨 **Modern Cyber Dark Aesthetic**: Built using sleek silver-cyan gradients, HSL tailored glows, glass cards, and micro-interactions powered by Framer Motion.
+### 🌟 Verified Credentials & Highlights
+- **NASA Human Exploration Rover Challenge (HERC) 2026**: **6th Place Globally (RC Division)**, **Best Indian Team**, **7:02 Fastest Course Run**. Designed custom 4-layer 2oz copper Power Distribution Board (PDB) and performed structural FEA on rocker-bogie load paths.
+- **2 Patent Applications Pending**:
+  1. *Agri-Sorter*: Automated fruit-quality sorting combining 850nm NIR vision, 24-bit delta-sigma load-cell weighing, and mechatronic sizing (Institutional IPR Cell).
+  2. *Portable Air-Puff Tonometer*: Non-contact intraocular pressure measurement using calibrated micro-pneumatic solenoid pulses and piezoresistive sensing (Institutional IPR Cell).
+- **Leadership & Teaching**:
+  - Secretary & Engineering Lead @ **AutoVIT Robotics Club** (VIT Chennai).
+  - Designer & Instructor @ **AutoVIT ROS 2 Workshop** (ros2_control, URDF/Xacro, live teleoperation).
+- **Industrial Internships**:
+  - **Salcomp Manufacturing**: CAD modeling, DFM, and VMC shop-floor tooling.
+  - **MEL Systems and Services**: Pick2Lite industrial hardware/IoT product; embedded C/C++ (STM32/ESP-IDF) and RS-485 architecture.
 
 ---
 
-## 🛠️ Tech Stack
+## 🚀 Key Engineering Sections
 
-### Frontend & UI
+1. **Immediate Hero & Proof**:
+   - Above-the-fold value proposition, verified proof badges, and instant CTAs ("View Selected Work" and "Download Résumé").
+   - Zero blocking countdowns or artificial entry screens.
+2. **Dedicated Research Interests (`#research`)**:
+   - Focus on animal-inspired locomotion (peristaltic crawlers, variable-aperture jet propulsion), soft/compliant mechanisms, and real-time state estimation.
+   - Explicitly distinguishes theoretical/simulation inquiries from completed physical builds.
+3. **Responsive Project Showcase (`#work`)**:
+   - Scannable responsive grid (1 col mobile, 2 col tablet, 3 col desktop) with instant category filters (*All, Biomimicry, Robotics & Autonomy, Embedded & Control, Medical & Vision*).
+   - Prominent featured hierarchy for bio-inspired robotics projects.
+   - Deep technical case study modal with 4 structured tabs (*Overview, Mechatronic Subsystems, Validation & Evidence, Kinematic Simulation*).
+   - Zero generic AI concept art; authentic CAD renders and explicit `[TODO: Asset]` wireframe placeholders.
+4. **How I Work (`#workflow`)**:
+   - 3-stage development pipeline: *First Principles & Physical Transduction* → *Deterministic Estimation & Control Laws* → *Hardware-in-the-Loop & Validation*.
+5. **Technical Capabilities (`#capabilities`)**:
+   - 6 open capability domain cards with toolchains, deep descriptions, and direct citations to applied projects.
+6. **Progressive WebGL & Accessibility**:
+   - Strictly respects `prefers-reduced-motion`.
+   - WebGL `<Canvas>` unmounts when motion is disabled or WebGL is unsupported, falling back to a static CSS technical grid.
+   - Pauses rendering loops when the browser tab is hidden.
+   - Full keyboard navigation, visible focus indicators, and accessible dialogs (WCAG 2.2 AA).
+7. **CyberTerminal (`~` or `` ` ``)**:
+   - Interactive CLI providing instant access to bio, project summaries, and verified contact channels without privacy leaks.
+
+---
+
+## 🛠️ Technology Stack
+
 - **Framework**: [Next.js 16 (App Router)](https://nextjs.org/)
 - **Core Library**: [React 19](https://react.dev/)
-- **Language**: [TypeScript](https://www.typescriptlang.org/)
-- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/) & [PostCSS](https://postcss.org/)
-- **Animations**: [Framer Motion v12](https://www.framer.com/motion/)
+- **Language**: [TypeScript](https://www.typescriptlang.org/) (Strict typing, 0 type errors)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
+- **Motion & Interactions**: [Framer Motion v12](https://www.framer.com/motion/) & [GSAP](https://gsap.com/)
+- **Smooth Scroll**: [Lenis](https://lenis.darkroom.engineering/) (disabled under reduced-motion)
+- **3D Graphics**: [Three.js](https://threejs.org/) & [React Three Fiber](https://r3f.docs.pmnd.rs/) (Progressive Enhancement)
 - **Icons**: [Lucide React](https://lucide.dev/)
-
-### Engineering & Domain Competencies
-- **Robotics & ROS**: ROS2, SLAM, Kinematics & Control Systems
-- **Embedded & Firmware**: Embedded C/C++, ESP32, STM32, FreeRTOS
-- **AI & Computer Vision**: Python, OpenCV, TensorFlow / PyTorch
-- **Hardware & Electronics**: Fusion 360 (CAD), PCB & PDB Design, DFM & VMC Manufacturing
 
 ---
 
-## 📁 Project Architecture
+## 📁 Repository Structure
 
 ```
 ashwin_website/
-├── public/                     # Static assets & icons
+├── public/
+│   ├── images/                 # General images & concept notes
+│   ├── projects/               # Authentic CAD renders & diagrams
+│   └── Ashwin_TE_Resume.pdf    # Verified technical résumé
 ├── src/
 │   ├── app/
-│   │   ├── favicon.ico
-│   │   ├── globals.css         # Global styles & glassmorphism utilities
-│   │   ├── layout.tsx          # Root layout & Metadata configuration
-│   │   └── page.tsx            # Main page composition
+│   │   ├── layout.tsx          # Root layout, OpenGraph, JSON-LD schema
+│   │   ├── page.tsx            # Composition: Hero, Research, Projects, Capabilities, Contact
+│   │   ├── robots.ts           # Dynamic robots.txt generator
+│   │   ├── sitemap.ts          # Dynamic sitemap.xml generator
+│   │   └── globals.css         # Tailwind v4 theme, focus-visible outlines
+│   ├── canvas/                 # Three.js geometries, shaders & materials
 │   ├── components/
-│   │   ├── BentoGrid.tsx       # Experience, Projects, Skills & Achievements grid
-│   │   ├── CyberTerminal.tsx   # Interactive floating terminal CLI
-│   │   ├── HeroSection.tsx     # Tabbed experience showcase & Hero section
-│   │   ├── NavBar.tsx          # Floating navigation bar
-│   │   ├── ParticleBackground.tsx # HTML5 Canvas particle animation
-│   │   └── ProjectModal.tsx    # Technical deep-dive spec modal
-│   ├── lib/
-│   │   └── utils.ts            # Class merge & utility helpers
-│   └── types.ts                # TypeScript interfaces for projects & data structures
-├── eslint.config.mjs           # ESLint configuration
+│   │   ├── canvas/             # KineticStage & WebGL components
+│   │   ├── motion/
+│   │   │   ├── Capabilities.tsx    # Responsive 6-domain capabilities grid
+│   │   │   ├── Contact.tsx         # Dedicated contact section & copy-email action
+│   │   │   ├── CyberTerminal.tsx   # Keyboard-safe interactive CLI
+│   │   │   ├── Footer.tsx          # Experience, milestones & academic record
+│   │   │   ├── Hero.tsx            # Hero value proposition & verified proof
+│   │   │   ├── HowIWork.tsx        # Mechatronic engineering pipeline
+│   │   │   ├── ProjectCard.tsx     # Technical project cards with blueprint placeholders
+│   │   │   ├── ProjectShowcase.tsx # Responsive project grid & category filter bar
+│   │   │   ├── ResearchInterests.tsx # 6-thrust research direction section
+│   │   │   ├── TopHUD.tsx          # Accessible header & mobile drawer
+│   │   │   └── WorkModal.tsx       # 4-tab technical case study modal
+│   │   └── seo/
+│   │       └── JsonLd.tsx          # Schema.org Person JSON-LD
+│   ├── context/
+│   │   └── ExperienceProvider.tsx  # Global motion toggle & scroll state
+│   ├── data/
+│   │   ├── capabilities.ts     # 6 capability records
+│   │   ├── experience.ts       # Verified experience & honors
+│   │   ├── profile.ts          # Verified personal facts & links (no phone)
+│   │   ├── projects.ts         # 8 deep engineering project case studies
+│   │   └── research.ts         # 6 structured research thrusts
+│   └── hooks/
+│       ├── useLenisGSAP.ts     # Smooth scroll with reduced-motion fallback
+│       ├── useMouseLight.ts    # Cursor light position tracker
+│       └── useReducedMotion.ts # OS prefers-reduced-motion hook
+├── CHANGES.md                  # Detailed overhaul changelog
+├── TODO_ASSETS.md              # Missing physical evidence & assets catalog
 ├── next.config.ts              # Next.js configuration
-├── package.json                # Project dependencies & npm scripts
-├── tsconfig.json               # TypeScript configuration
-└── README.md                   # Repository documentation
+├── package.json
+└── tsconfig.json
 ```
 
 ---
 
-## ⚙️ Getting Started
+## ⚙️ Development & Verification Commands
 
-### Prerequisites
-
-Ensure you have the following installed on your machine:
-- **Node.js**: `v18.17.0` or higher
-- **npm** (v9+) / **yarn** / **pnpm** / **bun**
-
-### Installation
-
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/Ashwin312007/ashwin_website.git
-   cd ashwin_website
-   ```
-
-2. **Install dependencies**:
-   ```bash
-   npm install
-   ```
-
-3. **Run the development server**:
-   ```bash
-   npm run dev
-   ```
-
-4. **Open in browser**:
-   Navigate to [http://localhost:3000](http://localhost:3000) to view the site locally.
-
-### Production Build
-
-To test or build the production bundle:
 ```bash
+# Install dependencies
+npm ci
+
+# Run strict TypeScript typecheck
+npm run typecheck
+
+# Run ESLint
+npm run lint
+
+# Build optimized production bundle
 npm run build
+
+# Start production server
 npm run start
 ```
 
 ---
 
-## 🏆 Featured Projects & Patents
-
-| Project / Patent | Domain | Highlights & Impact | Tech Stack |
-| :--- | :--- | :--- | :--- |
-| **Agri-Sorter** | Agri-Tech / Patent | Automated high-throughput agricultural sorting system combining computer vision & mechatronics (*Patent Pending*). | Computer Vision, Mechatronics, Python, Patent |
-| **Portable Air-Puff Tonometer** | Medical Devices / Patent | Non-contact intraocular pressure measurement device utilizing micro-pneumatics & embedded sensing (*Patent Pending*). | Embedded Systems, Micro-Pneumatics, Medical Devices |
-| **NASA HERC Autonomous Rover** | Space Tech | 6th Place Global & Best Indian Team at NASA Human Exploration Rover Challenge (HERC). | Motor Control, Power Electronics, Embedded C/C++ |
-| **ISRO Robotics Challenge Drone** | Autonomous Systems | Autonomous drone utilizing ROS2, Raspberry Pi, Pixhawk flight controller, and custom motor logic. | ROS2, C++, Python, Pixhawk, Raspberry Pi |
-| **Autonomous Delivery Robot** | Logistics R&D | Industrial-grade SLAM navigation robot with custom PCB/PDB architecture for power management. | SLAM, LiDAR, PCB Design, Embedded C++, Altium |
-
----
-
-## 💻 Interactive Cyber Terminal CLI
-
-The website features an embedded floating terminal CLI that visitors can launch by clicking **"Init Terminal"** or pressing the terminal button.
-
-### Available Terminal Commands:
-- `whoami` — Displays summary bio and leadership background.
-- `skills` — Outputs key skill matrix (ROS2, Embedded C++, Python, SLAM, etc.).
-- `projects` — Lists key projects and patents.
-- `contact` — Displays email, LinkedIn, and GitHub links.
-- `clear` — Clears the terminal output buffer.
-- `help` — Prints list of all supported commands.
-
----
-
-## 📬 Contact & Connect
-
-- **Email**: [teashwin3@gmail.com](mailto:teashwin3@gmail.com)
-- **LinkedIn**: [linkedin.com/in/ashwin-t-e-410655240](https://www.linkedin.com/in/ashwin-t-e-410655240/)
-- **GitHub**: [github.com/Ashwin312007](https://github.com/Ashwin312007)
-
----
-
 ## 📄 License
 
-This project is open source and available under the [MIT License](LICENSE).
-
----
-
-<div align="center">
-  <sub>Built with ❤️ by Ashwin T E. Designed with Next.js 16 & Tailwind CSS.</sub>
-</div>
+This repository is licensed under the [MIT License](LICENSE).

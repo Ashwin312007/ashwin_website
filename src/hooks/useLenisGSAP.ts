@@ -9,17 +9,20 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-// Plan.pdf Section 03:
 // Lenis with autoRaf off, driven by gsap.ticker, lenis.on('scroll', ScrollTrigger.update),
 // lag smoothing 0, refresh after fonts load.
-export function useLenisGSAP(enabled: boolean) {
+// Respects motion preference: if motion is disabled, disables smooth scrolling and falls back to native scroll.
+export function useLenisGSAP(hasEntered: boolean = true, motionEnabled: boolean = true) {
   const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    if (!enabled) {
-      lenisRef.current?.destroy();
-      lenisRef.current = null;
+
+    if (!hasEntered || !motionEnabled) {
+      if (lenisRef.current) {
+        lenisRef.current.destroy();
+        lenisRef.current = null;
+      }
       return;
     }
 
@@ -52,15 +55,33 @@ export function useLenisGSAP(enabled: boolean) {
       lenis.destroy();
       lenisRef.current = null;
     };
-  }, [enabled]);
+  }, [hasEntered, motionEnabled]);
 
-  const scrollTo = useCallback((target: string | HTMLElement) => {
-    if (lenisRef.current) {
-      lenisRef.current.scrollTo(target, { offset: -56 });
-    } else if (typeof target === "string") {
-      document.querySelector(target)?.scrollIntoView({ behavior: "smooth" });
-    }
-  }, []);
+  const scrollTo = useCallback(
+    (target: string | HTMLElement) => {
+      if (motionEnabled && lenisRef.current) {
+        lenisRef.current.scrollTo(target, { offset: -56 });
+      } else if (typeof target === "string") {
+        const el = document.querySelector(target);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          const targetY = window.pageYOffset + rect.top - 56;
+          window.scrollTo({
+            top: targetY,
+            behavior: motionEnabled ? "smooth" : "auto",
+          });
+        }
+      } else if (target instanceof HTMLElement) {
+        const rect = target.getBoundingClientRect();
+        const targetY = window.pageYOffset + rect.top - 56;
+        window.scrollTo({
+          top: targetY,
+          behavior: motionEnabled ? "smooth" : "auto",
+        });
+      }
+    },
+    [motionEnabled]
+  );
 
   const setPaused = useCallback((paused: boolean) => {
     if (!lenisRef.current) return;

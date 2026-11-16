@@ -321,7 +321,7 @@ skills     : Core technical domains (ROS 2, Dual-EKF, CAD/FEA, Embedded)
 telemetry  : Live simulated stream of IMU, 850nm NIR, EKF & LQR effort
 resume     : Trigger instant download of /Ashwin_TE_Resume.pdf
 matrix     : Retro digital phosphor matrix rain visualizer
-contact    : Direct communication channels (Email, Phone, Socials)
+contact    : Direct communication channels (Email, Status, Socials)
 clear      : Clear terminal screen history buffer
 exit       : Terminate terminal session (or press Esc / \`)
 
@@ -396,7 +396,7 @@ ${capText}
 COMMUNICATION CHANNELS // ASHWIN T E
 =============================================================================
 Email     : ${PROFILE.email}
-Phone     : ${PROFILE.phone}
+Status    : ${PROFILE.status}
 Location  : ${PROFILE.location}
 LinkedIn  : ${PROFILE.linkedinUrl}
 GitHub    : ${PROFILE.githubUrl}
