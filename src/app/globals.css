@@ -1,26 +1,108 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-sans: var(--font-space-grotesk), system-ui, sans-serif;
+  --font-sans: var(--font-sora), system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
 }
 
 :root {
   color-scheme: dark;
-  --bg: #08080a;
-  --fg: #edf2fa;
-  --muted: #9caec5;
-  --accent: #9bc1ff;
-  --hairline: rgba(255, 255, 255, 0.11);
+  --ink-900: #0a0a0a;
+  --ink-800: #121212;
+  --ink-600: #2a2a2a;
+  --grey-500: #8a8a8a;
+  --grey-300: #bdbdbd;
+  --paper-100: #ededed;
+  --paper-50: #fafafa;
+  --accent: #ffffff;
+  --focus-ring: #9bc1ff;
+
+  --surface-bg: var(--ink-900);
+  --surface-fg: var(--paper-50);
+  --surface-muted: var(--grey-500);
+  --surface-subtle: var(--grey-300);
+  --surface-border: rgba(255, 255, 255, 0.16);
+  --surface-card: rgba(18, 18, 18, 0.92);
+}
+
+html[data-surface="dark"] {
+  color-scheme: dark;
+  --surface-bg: var(--ink-900);
+  --surface-fg: var(--paper-50);
+  --surface-muted: #9a9a9a;
+  --surface-subtle: var(--grey-300);
+  --surface-border: rgba(255, 255, 255, 0.16);
+  --surface-card: rgba(18, 18, 18, 0.92);
+}
+
+html[data-surface="light"] {
+  color-scheme: light;
+  --surface-bg: var(--paper-50);
+  --surface-fg: var(--ink-900);
+  --surface-muted: #525252;
+  --surface-subtle: #3d3d3d;
+  --surface-border: rgba(10, 10, 10, 0.18);
+  --surface-card: rgba(237, 237, 237, 0.94);
+}
+
+html[data-high-contrast="true"][data-surface="dark"],
+html[data-high-contrast="true"]:not([data-surface="light"]) {
+  --ink-900: #000000;
+  --ink-800: #000000;
+  --paper-50: #ffffff;
+  --surface-bg: #000000;
+  --surface-fg: #ffffff;
+  --surface-muted: #ffffff;
+  --surface-subtle: #ffffff;
+  --surface-border: #ffffff;
+  --surface-card: #000000;
+}
+
+html[data-high-contrast="true"][data-surface="light"] {
+  --ink-900: #000000;
+  --paper-50: #ffffff;
+  --surface-bg: #ffffff;
+  --surface-fg: #000000;
+  --surface-muted: #000000;
+  --surface-subtle: #000000;
+  --surface-border: #000000;
+  --surface-card: #ffffff;
+}
+
+html[data-large-text="true"] {
+  font-size: 112.5%;
+}
+
+html[data-reduced-motion="true"] *,
+html[data-reduced-motion="true"] *::before,
+html[data-reduced-motion="true"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
 }
 
 html,
 body {
-  background-color: var(--bg);
-  color: var(--fg);
+  background-color: var(--ink-900);
+  color: var(--surface-fg);
   font-family: var(--font-sans);
-  overflow-x: hidden;
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html[data-webgl="false"][data-surface="light"] body {
+  background: linear-gradient(160deg, #e9e9e9 0%, #fafafa 60%, #ededed 100%);
+}
+
+html[data-webgl="false"][data-surface="dark"] body {
+  background: radial-gradient(
+      circle at 50% 35%,
+      rgba(255, 255, 255, 0.06) 0%,
+      rgba(10, 10, 10, 0) 58%
+    ),
+    #0a0a0a;
 }
 
 ::selection {
@@ -28,69 +110,63 @@ body {
   color: #ffffff;
 }
 
-/* Authentic Tactile Liquid Glass Texture with Dark Frosted Backing for Text Readability */
-.liquid-glass-frame {
-  background: linear-gradient(
-    135deg,
-    rgba(10, 16, 28, 0.88) 0%,
-    rgba(6, 10, 20, 0.94) 100%
-  );
-  backdrop-filter: blur(36px) saturate(200%);
-  -webkit-backdrop-filter: blur(36px) saturate(200%);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  box-shadow:
-    inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 0.38),
-    inset 0 -1.5px 1.5px 0 rgba(0, 0, 0, 0.5),
-    0 24px 60px -12px rgba(0, 0, 0, 0.85),
-    0 0 40px -10px rgba(56, 189, 248, 0.16);
-  position: relative;
-  overflow: hidden;
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
 }
 
-.liquid-glass-frame::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.65) 25%,
-    rgba(155, 193, 255, 0.85) 50%,
-    rgba(255, 255, 255, 0.65) 75%,
-    transparent 100%
-  );
-  pointer-events: none;
+.skip-link {
+  position: fixed;
+  top: -120px;
+  left: 1rem;
+  z-index: 100;
+  padding: 0.65rem 1rem;
+  background-color: var(--ink-900);
+  color: var(--paper-50);
+  border: 1px solid var(--paper-50);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  transition: top 0.15s ease;
 }
 
-/* Apple-style Liquid Glassmorphism with Dark Frosted Backing */
-.liquid-glass {
-  background: linear-gradient(
-    135deg,
-    rgba(10, 16, 28, 0.86) 0%,
-    rgba(6, 10, 20, 0.92) 100%
-  );
-  backdrop-filter: blur(28px) saturate(180%);
-  -webkit-backdrop-filter: blur(28px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow:
-    inset 0 1px 1px 0 rgba(255, 255, 255, 0.35),
-    inset 0 -1px 1px 0 rgba(0, 0, 0, 0.35),
-    0 16px 40px 0 rgba(0, 0, 0, 0.65);
+.skip-link:focus {
+  top: 1rem;
 }
 
-.liquid-glass-card {
-  background: linear-gradient(
-    135deg,
-    rgba(12, 18, 32, 0.88) 0%,
-    rgba(7, 11, 22, 0.94) 100%
-  );
-  backdrop-filter: blur(24px) saturate(160%);
-  -webkit-backdrop-filter: blur(24px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  box-shadow:
-    inset 0 1px 1px 0 rgba(255, 255, 255, 0.28),
-    0 12px 36px -5px rgba(0, 0, 0, 0.7);
+/* Fluid typography & mono label utilities (§2) */
+.text-fluid-h1 {
+  font-size: clamp(2.6rem, 4.4vw, 5.2rem);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.text-fluid-section {
+  font-size: clamp(2.4rem, 5.2vw, 6.5rem);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.text-fluid-giant {
+  font-size: clamp(6rem, 13vw, 15rem);
+  font-weight: 200;
+  letter-spacing: -0.03em;
+  line-height: 0.92;
+}
+
+.text-fluid-email {
+  font-size: clamp(2.4rem, 7.2vw, 8.5rem);
+  font-weight: 300;
+  letter-spacing: -0.025em;
+  line-height: 1;
+}
+
+.font-mono-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
 }

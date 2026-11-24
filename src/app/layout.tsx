@@ -1,12 +1,16 @@
-import type { Metadata } from "next";
-import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import fs from "node:fs";
+import path from "node:path";
+import type { Metadata, Viewport } from "next";
+import { Sora, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import { ExperienceProvider } from "@/context/ExperienceProvider";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { Providers } from "@/providers/Providers";
+import { WebGLRoot } from "@/webgl/WebGLRoot";
+import { Chrome } from "@/components/chrome/Chrome";
 
-const spaceGrotesk = Space_Grotesk({
+const sora = Sora({
   subsets: ["latin"],
-  variable: "--font-space-grotesk",
+  variable: "--font-sora",
   display: "swap",
 });
 
@@ -15,6 +19,11 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
   display: "swap",
 });
+
+export const viewport: Viewport = {
+  themeColor: "#121212",
+  colorScheme: "dark",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://ashwinte.vercel.app"),
@@ -46,14 +55,28 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const hasPortrait = fs.existsSync(
+    path.join(process.cwd(), "public", "images", "ashwin-portrait.jpg")
+  );
+
   return (
     <html
       lang="en"
-      className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} dark`}
+      data-surface="dark"
+      className={`${sora.variable} ${jetbrainsMono.variable}`}
     >
-      <body className="min-h-screen bg-[#08080A] text-[#edf2fa] antialiased [&_:focus-visible]:outline-none [&_:focus-visible]:ring-2 [&_:focus-visible]:ring-[#9bc1ff] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9bc1ff]">
+      <body className="min-h-screen bg-[#0A0A0A] text-[#FAFAFA] antialiased">
+        <a href="#main-content" className="skip-link">
+          Skip to main content
+        </a>
         <JsonLd />
-        <ExperienceProvider>{children}</ExperienceProvider>
+        <Providers>
+          <WebGLRoot hasPortrait={hasPortrait} />
+          <Chrome />
+          <main id="main-content" className="relative z-10">
+            {children}
+          </main>
+        </Providers>
       </body>
     </html>
   );
