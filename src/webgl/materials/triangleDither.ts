@@ -41,12 +41,12 @@ export function createTriangleDitherMaterial(): TriangleDitherMaterialBundle {
   const material = new THREE.MeshPhysicalMaterial({
     color: "#d9d9d9",
     metalness: 1,
-    roughness: 0.22,
+    roughness: 0.18,
     clearcoat: 1,
     clearcoatRoughness: 0.08,
     iridescence: 0.35,
     iridescenceIOR: 1.3,
-    envMapIntensity: 1.4,
+    envMapIntensity: 0.62,
     side: THREE.DoubleSide,
   });
 

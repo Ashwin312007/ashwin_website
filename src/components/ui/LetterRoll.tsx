@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { Fragment, useEffect, useRef } from "react";
 import { gsap } from "@/lib/gsap";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
@@ -12,6 +12,17 @@ export interface LetterRollProps {
   duration?: number;
 }
 
+/**
+ * Slot-machine letter roll.
+ *
+ * Accessibility / DOM hygiene:
+ *  - The real string is rendered ONCE in an `sr-only` span (screen readers, copy, find-in-page).
+ *  - The animated layer is `aria-hidden` + `select-none` and contains NO text nodes: both glyph rows
+ *    (visible + rolled-in) are CSS `::before` / `::after` pseudo-elements (content: attr(data-char)),
+ *    so textContent / copy-paste / scrapers see the string exactly once.
+ *  - Characters are grouped per word (`whitespace-nowrap`) with normal spaces between words,
+ *    so long strings (e.g. project titles) wrap instead of overflowing/truncating.
+ */
 export function LetterRoll({
   text,
   className = "",
@@ -23,32 +34,23 @@ export function LetterRoll({
   const prevTextRef = useRef<string>(text);
   const reducedMotion = useReducedMotion();
 
-  const animateIn = () => {
-    const root = rootRef.current;
-    if (!root || reducedMotion) return;
-    const tracks = root.querySelectorAll<HTMLElement>("[data-lr-track]");
-    if (tracks.length === 0) return;
+  const getTracks = () =>
+    rootRef.current?.querySelectorAll<HTMLElement>("[data-lr-track]") ?? null;
 
+  const animateIn = () => {
+    const tracks = getTracks();
+    if (!tracks || tracks.length === 0 || reducedMotion) return;
     gsap.killTweensOf(tracks);
     gsap.fromTo(
       tracks,
       { yPercent: 0 },
-      {
-        yPercent: -50,
-        duration,
-        stagger,
-        ease: "power3.inOut",
-        overwrite: "auto",
-      }
+      { yPercent: -50, duration, stagger, ease: "power3.inOut", overwrite: "auto" }
     );
   };
 
   const animateOut = () => {
-    const root = rootRef.current;
-    if (!root || reducedMotion) return;
-    const tracks = root.querySelectorAll<HTMLElement>("[data-lr-track]");
-    if (tracks.length === 0) return;
-
+    const tracks = getTracks();
+    if (!tracks || tracks.length === 0 || reducedMotion) return;
     gsap.killTweensOf(tracks);
     gsap.to(tracks, {
       yPercent: 0,
@@ -64,53 +66,47 @@ export function LetterRoll({
     if (prevTextRef.current === text) return;
     prevTextRef.current = text;
 
-    const root = rootRef.current;
-    if (!root || reducedMotion) return;
-
-    const tracks = root.querySelectorAll<HTMLElement>("[data-lr-track]");
-    if (tracks.length === 0) return;
+    const tracks = getTracks();
+    if (!tracks || tracks.length === 0 || reducedMotion) return;
 
     gsap.killTweensOf(tracks);
     gsap.fromTo(
       tracks,
       { yPercent: 0 },
-      {
-        yPercent: -50,
-        duration: 0.48,
-        stagger: 0.014,
-        ease: "power3.inOut",
-      }
+      { yPercent: -50, duration: 0.48, stagger: 0.014, ease: "power3.inOut" }
     );
   }, [text, trigger, reducedMotion]);
 
-  const chars = Array.from(text);
+  const words = text.split(" ");
 
   return (
     <span
       ref={rootRef}
-      aria-label={text}
       onPointerEnter={trigger === "hover" ? animateIn : undefined}
       onPointerLeave={trigger === "hover" ? animateOut : undefined}
-      className={`inline-flex items-baseline whitespace-pre ${className}`}
+      className={`inline ${className}`}
     >
-      <span aria-hidden="true" className="inline-flex items-baseline">
-        {chars.map((char, idx) => {
-          const display = char === " " ? "\u00A0" : char;
-          return (
-            <span
-              key={`${idx}-${char}`}
-              className="relative inline-block h-[1.08em] overflow-hidden align-baseline leading-[1.08]"
-            >
-              <span
-                data-lr-track
-                className="inline-flex flex-col will-change-transform"
-              >
-                <span className="block h-[1.08em] leading-[1.08]">{display}</span>
-                <span className="block h-[1.08em] leading-[1.08]">{display}</span>
-              </span>
+      <span className="sr-only">{text}</span>
+      <span aria-hidden="true" className="select-none">
+        {words.map((word, wi) => (
+          <Fragment key={`${wi}-${word}`}>
+            {wi > 0 ? " " : null}
+            <span className="inline-flex items-baseline whitespace-nowrap">
+              {Array.from(word).map((char, ci) => (
+                <span
+                  key={`${ci}-${char}`}
+                  className="relative inline-block h-[1.2em] overflow-hidden align-baseline leading-[1.2]"
+                >
+                  <span
+                    data-lr-track
+                    data-char={char}
+                    className="flex flex-col will-change-transform before:block before:h-[1.2em] before:leading-[1.2] before:content-[attr(data-char)] after:block after:h-[1.2em] after:leading-[1.2] after:content-[attr(data-char)]"
+                  />
+                </span>
+              ))}
             </span>
-          );
-        })}
+          </Fragment>
+        ))}
       </span>
     </span>
   );

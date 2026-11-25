@@ -18,8 +18,8 @@ export function Dive() {
   const handleProgress = useCallback((progress: number) => {
     const store = useAppStore.getState();
 
-    // 70-100%: triangle wipe 0 -> 1 from screen center
-    const wipeProgress = clamp((progress - 0.7) / 0.3, 0, 1);
+    // 52-80%: triangle wipe 0 -> 1 from screen center
+    const wipeProgress = clamp((progress - 0.52) / 0.28, 0, 1);
     const nextSurface = wipeProgress >= 0.5 ? "light" : "dark";
 
     if (
@@ -57,9 +57,9 @@ export function Dive() {
         gsap.set(words, { opacity: 1, filter: "none" });
         gsap.set(statement, { opacity: 1 });
       } else {
-        gsap.set(words, { opacity: 0.08, filter: "blur(8px)" });
+        gsap.set(words, { opacity: 0.25, filter: "blur(5px)" });
 
-        // 30-55% word-by-word scrubbed blur/opacity reveal
+        // 0-28% word-by-word scrubbed blur/opacity reveal
         ScrollTrigger.create({
           trigger: section,
           start: "top top",
@@ -68,19 +68,19 @@ export function Dive() {
           onUpdate: (self) => {
             const p = self.progress;
             const total = words.length;
-            const windowProgress = clamp((p - 0.3) / 0.25, 0, 1);
+            const windowProgress = clamp(p / 0.28, 0, 1);
 
             for (let i = 0; i < total; i++) {
-              const wordStart = (i / total) * 0.75;
-              const local = clamp((windowProgress - wordStart) / 0.25, 0, 1);
-              const opacity = 0.08 + local * 0.92;
-              const blur = (1 - local) * 8;
+              const wordStart = (i / total) * 0.72;
+              const local = clamp((windowProgress - wordStart) / 0.28, 0, 1);
+              const opacity = 0.25 + local * 0.75;
+              const blur = (1 - local) * 5;
               words[i].style.opacity = opacity.toFixed(3);
               words[i].style.filter = blur > 0.1 ? `blur(${blur.toFixed(2)}px)` : "none";
             }
 
-            // Fade sentence gently before wipe crosses 50% surface switch
-            const fadeOut = 1 - clamp((p - 0.64) / 0.14, 0, 1);
+            // Fade sentence completely before wipe starts at 52%
+            const fadeOut = 1 - clamp((p - 0.42) / 0.1, 0, 1);
             statement.style.opacity = fadeOut.toFixed(3);
           },
         });
@@ -114,9 +114,9 @@ export function Dive() {
       id="dive"
       ref={sectionRef}
       aria-label="Point of view"
-      className="relative h-[380vh] w-full"
+      className="relative -mb-[54vh] h-[220vh] w-full"
     >
-      <div className="sticky top-0 flex h-screen w-full items-center justify-center px-6 md:px-12">
+      <div className="pointer-events-none sticky top-0 flex h-screen w-full items-center justify-center px-6 md:px-12">
         <p
           ref={statementRef}
           className="max-w-[26ch] text-center text-[clamp(1.75rem,3.8vw,4rem)] font-light leading-[1.14] tracking-[-0.02em] text-[var(--surface-fg)]"

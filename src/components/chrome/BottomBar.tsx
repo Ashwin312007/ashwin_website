@@ -66,6 +66,14 @@ export function BottomBar() {
   };
 
   return (
+    <>
+    {/* Bottom scrim: section content fades out behind the fixed HUD / audio controls */}
+    <div
+      aria-hidden="true"
+      className={`pointer-events-none fixed inset-x-0 bottom-0 z-30 h-28 bg-gradient-to-t from-[var(--surface-bg)]/95 via-[var(--surface-bg)]/75 via-55% to-transparent transition-opacity duration-500 ${
+        loaded ? "opacity-100" : "opacity-0"
+      }`}
+    />
     <div
       className={`pointer-events-none fixed right-0 bottom-0 left-0 z-40 flex items-end justify-between px-6 py-5 transition-opacity duration-500 md:px-10 md:py-7 ${
         loaded ? "opacity-100" : "opacity-0"
@@ -173,5 +181,6 @@ export function BottomBar() {
         </button>
       </div>
     </div>
+    </>
   );
 }

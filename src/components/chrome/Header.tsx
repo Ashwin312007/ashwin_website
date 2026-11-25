@@ -30,11 +30,15 @@ export function Header() {
 
   const navListRef = useRef<HTMLUListElement | null>(null);
   const menuBtnRef = useRef<HTMLButtonElement | null>(null);
+  const firstRunRef = useRef(true);
 
   const isHome = pathname === "/";
   const scrolledPastHero = scrollY > 460;
   const collapsed = !isDesktop || !isHome || scrolledPastHero || menuOpen;
 
+  // Nav <-> MENU swap. ONE sequenced timeline (items out -> button in, and the reverse) driven only
+  // by GSAP `autoAlpha` (opacity + visibility). The button has no React-controlled inline opacity,
+  // so it can never pop in on top of nav links that are still fading out.
   useEffect(() => {
     const list = navListRef.current;
     const btn = menuBtnRef.current;
@@ -42,67 +46,41 @@ export function Header() {
 
     const items = list.querySelectorAll<HTMLElement>("[data-nav-item]");
 
-    if (reducedMotion) {
-      gsap.set(items, {
-        y: collapsed ? -12 : 0,
-        opacity: collapsed ? 0 : 1,
-        pointerEvents: collapsed ? "none" : "auto",
-      });
-      gsap.set(btn, {
-        y: collapsed ? 0 : 10,
-        opacity: collapsed ? 1 : 0,
-        pointerEvents: collapsed ? "auto" : "none",
-      });
+    list.style.pointerEvents = collapsed ? "none" : "auto";
+    btn.style.pointerEvents = collapsed ? "auto" : "none";
+
+    if (reducedMotion || firstRunRef.current) {
+      firstRunRef.current = false;
+      gsap.set(items, { autoAlpha: collapsed ? 0 : 1, y: collapsed ? -14 : 0 });
+      gsap.set(btn, { autoAlpha: collapsed ? 1 : 0, y: 0 });
       return;
     }
 
+    const tl = gsap.timeline();
     if (collapsed) {
-      gsap.to(items, {
+      tl.to(items, {
+        autoAlpha: 0,
         y: -14,
-        opacity: 0,
-        duration: 0.35,
-        stagger: 0.04,
+        duration: 0.3,
+        stagger: 0.035,
         ease: "power3.in",
-        overwrite: "auto",
-        onStart: () => {
-          list.style.pointerEvents = "none";
-        },
-      });
-      gsap.to(btn, {
-        y: 0,
-        opacity: 1,
-        duration: 0.4,
-        delay: 0.14,
-        ease: "expo.out",
-        overwrite: "auto",
-        onStart: () => {
-          btn.style.pointerEvents = "auto";
-        },
-      });
+      }).fromTo(
+        btn,
+        { y: -8 },
+        { autoAlpha: 1, y: 0, duration: 0.4, ease: "expo.out" },
+        ">-0.05"
+      );
     } else {
-      gsap.to(btn, {
-        y: -8,
-        opacity: 0,
-        duration: 0.25,
-        ease: "power2.in",
-        overwrite: "auto",
-        onStart: () => {
-          btn.style.pointerEvents = "none";
-        },
-      });
-      gsap.to(items, {
-        y: 0,
-        opacity: 1,
-        duration: 0.48,
-        stagger: 0.04,
-        delay: 0.08,
-        ease: "expo.out",
-        overwrite: "auto",
-        onStart: () => {
-          list.style.pointerEvents = "auto";
-        },
-      });
+      tl.to(btn, { autoAlpha: 0, y: -8, duration: 0.22, ease: "power2.in" }).to(
+        items,
+        { autoAlpha: 1, y: 0, duration: 0.45, stagger: 0.04, ease: "expo.out" },
+        ">-0.05"
+      );
     }
+
+    return () => {
+      tl.kill();
+    };
   }, [collapsed, reducedMotion]);
 
   const toggleMenu = () => {
@@ -115,6 +93,14 @@ export function Header() {
   };
 
   return (
+    <>
+    {/* Top scrim: content scrolling under the fixed header fades out instead of colliding with the logo/nav */}
+    <div
+      aria-hidden="true"
+      className={`pointer-events-none fixed inset-x-0 top-0 z-30 h-28 bg-gradient-to-b from-[var(--surface-bg)]/90 via-[var(--surface-bg)]/60 via-50% to-transparent transition-opacity duration-500 ${
+        loaded ? "opacity-100" : "opacity-0"
+      }`}
+    />
     <header
       className={`pointer-events-none fixed top-0 right-0 left-0 z-40 flex items-start justify-between px-6 py-5 transition-opacity duration-500 md:px-10 md:py-7 ${
         loaded ? "opacity-100" : "opacity-0"
@@ -155,8 +141,7 @@ export function Header() {
           aria-expanded={menuOpen}
           aria-controls="site-menu-overlay"
           tabIndex={collapsed ? 0 : -1}
-          className="pointer-events-auto absolute top-0 right-0 overflow-hidden border border-[var(--surface-border)] bg-[var(--surface-bg)]/50 font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--surface-fg)] backdrop-blur-md transition-colors"
-          style={{ opacity: collapsed ? 1 : 0 }}
+          className="pointer-events-auto invisible absolute top-0 right-0 z-10 overflow-hidden border border-[var(--surface-border)] bg-[var(--surface-bg)]/50 font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--surface-fg)] backdrop-blur-md transition-colors"
         >
           <TriangleCover className="px-4 py-2">
             <LetterRoll text={menuOpen ? "CLOSE" : "MENU"} />
@@ -164,5 +149,6 @@ export function Header() {
         </button>
       </nav>
     </header>
+    </>
   );
 }

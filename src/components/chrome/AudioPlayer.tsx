@@ -32,7 +32,7 @@ export function AudioPlayer() {
         }}
         aria-pressed={soundOn}
         aria-label={soundOn ? `Pause ${title}` : `Play ${title}`}
-        className="max-w-[168px] truncate px-1.5 py-0.5 text-left transition-opacity hover:opacity-80"
+        className="max-w-[15rem] truncate px-1.5 py-0.5 text-left transition-opacity hover:opacity-80"
         title={title}
       >
         <span className={soundOn ? "opacity-100" : "opacity-60"}>{title}</span>

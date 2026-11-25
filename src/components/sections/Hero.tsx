@@ -159,7 +159,8 @@ export function Hero() {
           {
             y: "-12vh",
             opacity: 0,
-            ease: "none",
+            ease: "power1.in",
+            duration: 0.4,
           },
           0
         );
@@ -172,6 +173,7 @@ export function Hero() {
             y: -24,
             opacity: 0,
             ease: "none",
+            duration: 1,
           },
           0
         );
@@ -184,6 +186,7 @@ export function Hero() {
             y: 16,
             opacity: 0,
             ease: "none",
+            duration: 1,
           },
           0
         );
@@ -205,14 +208,14 @@ export function Hero() {
       ref={sectionRef}
       onClick={handleEmptyAreaClick}
       data-cursor-tip="CLICK OR PRESS M FOR SOUND"
-      className="relative flex min-h-screen w-full flex-col justify-end px-6 pt-28 pb-24 md:px-10 md:pb-24"
+      className="relative flex min-h-screen w-full flex-col justify-end px-6 pt-28 pb-24 md:px-10 md:pb-40"
     >
-      <div className="relative flex w-full flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+      <div className="relative flex w-full flex-col gap-6 md:gap-8 lg:flex-row lg:items-end lg:justify-between">
         {/* Left-bottom headline */}
-        <div ref={headlineWrapRef} className="max-w-[40ch] will-change-transform">
+        <div ref={headlineWrapRef} className="w-full will-change-transform lg:w-[min(38vw,40rem)]">
           <h1
             ref={headlineRef}
-            className="text-fluid-h1 font-light text-[var(--surface-fg)]"
+            className="text-fluid-hero font-light text-[var(--surface-fg)] [text-shadow:0_0_28px_rgba(0,0,0,0.55)]"
           >
             {PROFILE.headline}
           </h1>
@@ -251,12 +254,12 @@ export function Hero() {
         {/* Right-bottom meta */}
         <div
           ref={metaRef}
-          className="flex flex-col items-start gap-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-[var(--surface-muted)] lg:items-end lg:text-right"
+          className="flex flex-col items-start gap-2 font-mono text-xs uppercase tracking-[0.12em] text-[var(--surface-subtle)] [text-shadow:0_0_12px_rgba(0,0,0,0.7)] lg:items-end lg:text-right"
         >
           <span ref={locTextRef} className="text-[var(--surface-fg)]">
             {LOCATION_TEXT}
           </span>
-          <span ref={statusTextRef}>{PROFILE.status}</span>
+          <span ref={statusTextRef} className="border border-[var(--surface-border)] px-2.5 py-1 text-[var(--surface-fg)]">{PROFILE.status}</span>
         </div>
       </div>
     </section>

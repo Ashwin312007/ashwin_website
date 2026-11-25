@@ -221,7 +221,7 @@ export function Research() {
     <section
       id="research"
       ref={sectionRef}
-      className="relative min-h-[220vh] w-full overflow-x-clip py-28 lg:py-36"
+      className="relative min-h-[170vh] w-full overflow-x-clip py-28 lg:py-36"
     >
       <div className="mx-auto w-full max-w-[1440px] px-6 md:px-10">
         <span className="font-mono-label mb-8 block text-[var(--surface-muted)]">

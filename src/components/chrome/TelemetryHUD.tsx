@@ -45,7 +45,7 @@ export function TelemetryHUD() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none fixed bottom-16 left-10 z-40 hidden items-center gap-2 font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--surface-muted)] lg:flex"
+      className="pointer-events-none fixed bottom-16 left-10 z-40 hidden items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--surface-subtle)] lg:flex"
     >
       <span className="h-1.5 w-1.5 rounded-full bg-current opacity-70" />
       <span ref={textRef} className="tabular-nums">

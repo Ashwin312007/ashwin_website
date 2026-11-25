@@ -81,7 +81,7 @@ export default async function ProjectCasePage({ params }: WorkPageProps) {
       {(project.repoUrl || project.demoUrl) ? (
         <section
           aria-label="Project repositories and external links"
-          className="mx-auto w-full max-w-6xl border-t border-[var(--surface-border)] px-6 py-12 md:px-10 md:py-16"
+          className="relative z-10 mx-auto w-full max-w-6xl border-t border-[var(--surface-border)] px-6 py-12 md:px-10 md:py-16"
         >
           <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
             <div>
@@ -156,7 +156,7 @@ export default async function ProjectCasePage({ params }: WorkPageProps) {
               <TransitionLink
                 href="/#contact"
                 cursor="talk"
-                className="inline-flex items-center gap-2 border border-[var(--surface-border)] px-5 py-2.5 font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--surface-subtle)] transition-colors hover:border-[var(--surface-fg)] hover:text-[var(--surface-fg)]"
+                className="relative z-10 inline-flex items-center gap-2 border border-[var(--surface-border)] bg-[var(--surface-bg)]/85 px-5 py-2.5 font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--surface-fg)] backdrop-blur-md transition-colors hover:border-[var(--surface-fg)]"
               >
                 <LetterRoll text="Discuss Build" trigger="hover" />
               </TransitionLink>

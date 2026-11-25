@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import { gsap } from "@/lib/gsap";
 import { clamp } from "@/lib/math";
 import { useAppStore } from "@/store/useAppStore";
@@ -10,6 +11,7 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
 export function Cursor() {
   const isTouch = useIsTouch();
   const reducedMotion = useReducedMotion();
+  const pathname = usePathname();
 
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const ringRef = useRef<HTMLDivElement | null>(null);
@@ -28,6 +30,9 @@ export function Cursor() {
     let lastY = window.innerHeight * 0.5;
     let lastT = performance.now();
     let visible = false;
+    let ptrX = -1;
+    let ptrY = -1;
+    let rafPending = false;
 
     const ringX = !isTouch && ring
       ? gsap.quickTo(ring, "x", {
@@ -140,6 +145,8 @@ export function Cursor() {
       lastX = e.clientX;
       lastY = e.clientY;
       lastT = now;
+      ptrX = e.clientX;
+      ptrY = e.clientY;
 
       useAppStore.getState().set({
         pointer: { x: ndcX, y: ndcY, vx, vy },
@@ -162,21 +169,71 @@ export function Cursor() {
       updateCursorTarget(e.target);
     };
 
+    // Back to the plain ring: no label, no tooltip, base scale.
+    const resetBase = () => {
+      if (!ring || !dot || !labelEl || !tipEl) return;
+      labelEl.textContent = "";
+      labelEl.style.opacity = "0";
+      tipEl.style.opacity = "0";
+      gsap.to(ring, {
+        scale: 1,
+        opacity: 1,
+        duration: reducedMotion ? 0 : 0.2,
+        ease: "expo.out",
+        overwrite: "auto",
+      });
+      gsap.to(dot, { opacity: 1, duration: 0.15, overwrite: "auto" });
+    };
+
+    // The element under a STATIONARY pointer changes when the page scrolls or the route changes,
+    // without any pointermove. Re-resolve the target so labels like VIEW can never get stuck.
+    const refreshTarget = () => {
+      rafPending = false;
+      if (isTouch || ptrX < 0) return;
+      const el = document.elementFromPoint(ptrX, ptrY);
+      if (el) updateCursorTarget(el);
+      else resetBase();
+    };
+
+    const scheduleRefresh = () => {
+      if (rafPending) return;
+      rafPending = true;
+      requestAnimationFrame(refreshTarget);
+    };
+
     const onPointerLeave = () => {
       if (wrap) {
         visible = false;
         wrap.style.opacity = "0";
       }
+      ptrX = -1;
+      ptrY = -1;
+      resetBase();
     };
 
     window.addEventListener("pointermove", onPointerMove, { passive: true });
-    document.addEventListener("pointerleave", onPointerLeave);
+    window.addEventListener("scroll", scheduleRefresh, { passive: true });
+    window.addEventListener("cursor:refresh", scheduleRefresh);
+    window.addEventListener("blur", onPointerLeave);
+    document.documentElement.addEventListener("mouseleave", onPointerLeave);
 
     return () => {
       window.removeEventListener("pointermove", onPointerMove);
-      document.removeEventListener("pointerleave", onPointerLeave);
+      window.removeEventListener("scroll", scheduleRefresh);
+      window.removeEventListener("cursor:refresh", scheduleRefresh);
+      window.removeEventListener("blur", onPointerLeave);
+      document.documentElement.removeEventListener("mouseleave", onPointerLeave);
     };
   }, [isTouch, reducedMotion]);
+
+  // Route change: new DOM under a stationary pointer -> re-resolve the cursor state.
+  useEffect(() => {
+    const id = window.setTimeout(
+      () => window.dispatchEvent(new Event("cursor:refresh")),
+      180
+    );
+    return () => window.clearTimeout(id);
+  }, [pathname]);
 
   if (isTouch) return null;
 

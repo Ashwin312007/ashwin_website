@@ -35,48 +35,48 @@ const CORE_DETAIL_BY_TIER: Record<Tier, number> = {
 
 const CORE_KEYFRAMES: Record<CameraKey, CoreKeyframe> = {
   top: {
-    from: { x: 0, y: 0, z: 0, scale: 1, wireMin: 0.15, wireMax: 1.6, darkFloor: 0.12 },
-    to: { x: 0, y: 0, z: 0, scale: 1, wireMin: 0.15, wireMax: 1.6, darkFloor: 0.12 },
+    from: { x: 0, y: 0, z: 0, scale: 1, wireMin: 0.15, wireMax: 1.15, darkFloor: 0.045 },
+    to: { x: 0, y: 0, z: 0, scale: 1, wireMin: 0.15, wireMax: 1.15, darkFloor: 0.045 },
   },
   dive_in: {
-    from: { x: 0, y: 0, z: 0, scale: 1, wireMin: 0.15, wireMax: 1.6, darkFloor: 0.12 },
-    to: { x: 0, y: 0, z: 0, scale: 1, wireMin: 0.34, wireMax: 1.85, darkFloor: 0.08 },
+    from: { x: 0, y: 0, z: 0, scale: 1, wireMin: 0.15, wireMax: 1.15, darkFloor: 0.045 },
+    to: { x: 0, y: 0, z: 0, scale: 1, wireMin: 0.34, wireMax: 1.4, darkFloor: 0.035 },
   },
   approach: {
-    from: { x: 0, y: 0, z: 0, scale: 0, wireMin: 0.15, wireMax: 1.3, darkFloor: 0.12 },
-    to: { x: -2.6, y: 0, z: 0, scale: 0.55, wireMin: 0.12, wireMax: 1.05, darkFloor: 0.12 },
+    from: { x: 0, y: 0, z: 0, scale: 0, wireMin: 0.15, wireMax: 1.05, darkFloor: 0.045 },
+    to: { x: -2.6, y: 0, z: 0, scale: 0.55, wireMin: 0.12, wireMax: 0.95, darkFloor: 0.045 },
   },
   capabilities: {
-    from: { x: -2.6, y: 0, z: 0, scale: 0.55, wireMin: 0.12, wireMax: 1.05, darkFloor: 0.12 },
-    to: { x: -2.6, y: 0, z: 0, scale: 0.55, wireMin: 0.12, wireMax: 1.05, darkFloor: 0.12 },
+    from: { x: -2.6, y: 0, z: 0, scale: 0.55, wireMin: 0.12, wireMax: 0.95, darkFloor: 0.045 },
+    to: { x: -2.6, y: 0, z: 0, scale: 0.55, wireMin: 0.12, wireMax: 0.95, darkFloor: 0.045 },
   },
   work: {
-    from: { x: 2.25, y: 1.15, z: -0.4, scale: 0.35, wireMin: 0.15, wireMax: 1.35, darkFloor: 0.12 },
-    to: { x: 2.25, y: 1.15, z: -0.4, scale: 0.35, wireMin: 0.15, wireMax: 1.35, darkFloor: 0.12 },
+    from: { x: 2.25, y: 1.15, z: -0.4, scale: 0.35, wireMin: 0.15, wireMax: 1.05, darkFloor: 0.045 },
+    to: { x: 2.25, y: 1.15, z: -0.4, scale: 0.35, wireMin: 0.15, wireMax: 1.05, darkFloor: 0.045 },
   },
   experience: {
-    from: { x: 2.0, y: 1.05, z: -0.8, scale: 0.25, wireMin: 0.12, wireMax: 1.15, darkFloor: 0.12 },
-    to: { x: 1.2, y: 0.6, z: -0.4, scale: 0.45, wireMin: 0.14, wireMax: 1.3, darkFloor: 0.12 },
+    from: { x: 2.0, y: 1.05, z: -0.8, scale: 0.25, wireMin: 0.12, wireMax: 1.0, darkFloor: 0.045 },
+    to: { x: 1.2, y: 0.6, z: -0.4, scale: 0.45, wireMin: 0.14, wireMax: 1.05, darkFloor: 0.045 },
   },
   research: {
-    from: { x: 0, y: 0, z: 0, scale: 0.8, wireMin: 0.16, wireMax: 1.5, darkFloor: 0.12 },
-    to: { x: 0, y: 0, z: 0, scale: 0.8, wireMin: 0.16, wireMax: 1.5, darkFloor: 0.12 },
+    from: { x: 0, y: 0, z: 0, scale: 0.8, wireMin: 0.16, wireMax: 1.15, darkFloor: 0.045 },
+    to: { x: 0, y: 0, z: 0, scale: 0.8, wireMin: 0.16, wireMax: 1.15, darkFloor: 0.045 },
   },
   about: {
-    from: { x: 0, y: 0, z: 0, scale: 0, wireMin: 0.15, wireMax: 1.2, darkFloor: 0.12 },
-    to: { x: 0, y: 0, z: 0, scale: 0, wireMin: 0.15, wireMax: 1.2, darkFloor: 0.12 },
+    from: { x: 0, y: 0, z: 0, scale: 0, wireMin: 0.15, wireMax: 1.0, darkFloor: 0.045 },
+    to: { x: 0, y: 0, z: 0, scale: 0, wireMin: 0.15, wireMax: 1.0, darkFloor: 0.045 },
   },
   prefooter: {
-    from: { x: 0, y: 0, z: 0, scale: 0, wireMin: 0.15, wireMax: 1.2, darkFloor: 0.12 },
-    to: { x: 0, y: 0, z: 0, scale: 0, wireMin: 0.15, wireMax: 1.2, darkFloor: 0.12 },
+    from: { x: 0, y: 0, z: 0, scale: 0, wireMin: 0.15, wireMax: 1.0, darkFloor: 0.045 },
+    to: { x: 0, y: 0, z: 0, scale: 0, wireMin: 0.15, wireMax: 1.0, darkFloor: 0.045 },
   },
   footer: {
-    from: { x: 0, y: 0, z: 0, scale: 0, wireMin: 0.15, wireMax: 1.2, darkFloor: 0.12 },
-    to: { x: 0, y: 0, z: 0, scale: 0, wireMin: 0.15, wireMax: 1.2, darkFloor: 0.12 },
+    from: { x: 0, y: 0, z: 0, scale: 0, wireMin: 0.15, wireMax: 1.0, darkFloor: 0.045 },
+    to: { x: 0, y: 0, z: 0, scale: 0, wireMin: 0.15, wireMax: 1.0, darkFloor: 0.045 },
   },
   case: {
-    from: { x: 2.1, y: 0, z: 0, scale: 0.78, wireMin: 0.18, wireMax: 1.65, darkFloor: 0.12 },
-    to: { x: 2.1, y: 0, z: 0, scale: 0.78, wireMin: 0.18, wireMax: 1.65, darkFloor: 0.12 },
+    from: { x: 2.75, y: 0.25, z: -0.8, scale: 0.6, wireMin: 0.18, wireMax: 1.2, darkFloor: 0.05 },
+    to: { x: 2.75, y: 0.25, z: -0.8, scale: 0.6, wireMin: 0.18, wireMax: 1.2, darkFloor: 0.05 },
   },
 };
 
@@ -181,19 +181,30 @@ export function PeristalticCore() {
     const st = smoothstep(clamp(camState.t, 0, 1));
 
     const isMobile = size.width < 768;
-    const mobileLift = camState.key === "top" && isMobile ? 0.25 : 0;
+    // Stacked hero (< lg): headline sits under the core, so shrink + lift it into the free space
+    // between the header and the headline (blends back to centre as the hero scrolls away).
+    const stackedHero = camState.key === "top" && size.width < 1024;
+    const mobileLift = stackedHero ? (isMobile ? 0.96 : 0.75) * (1 - st) : 0;
     const mobileCapShift = camState.key === "capabilities" && isMobile ? 1.55 : 0;
     const mobileWorkShift = camState.key === "work" && isMobile ? -0.9 : 0;
     const mobileCaseShift = camState.key === "case" && isMobile ? -1.1 : 0;
 
+    // Desktop hero: park the core to the right of the headline column and slightly smaller;
+    // it eases back to the centred pose as the hero scrolls away (st: 0 -> 1).
+    const heroBlend = camState.key === "top" ? 1 - st : 0;
+    const heroShiftX = size.width >= 1024 ? 1.15 * heroBlend : 0;
+    const heroScale =
+      1 - (size.width >= 1024 ? 0.22 : isMobile ? 0.56 : 0.48) * heroBlend;
+
     const targetX =
       lerp(kf.from.x, kf.to.x, st) +
+      heroShiftX +
       mobileCapShift +
       mobileWorkShift +
       mobileCaseShift;
     const targetY = lerp(kf.from.y, kf.to.y, st) + mobileLift;
     const targetZ = lerp(kf.from.z, kf.to.z, st);
-    const targetScale = lerp(kf.from.scale, kf.to.scale, st);
+    const targetScale = lerp(kf.from.scale, kf.to.scale, st) * heroScale;
     const targetWireMin = lerp(kf.from.wireMin, kf.to.wireMin, st);
     const targetWireMax = lerp(kf.from.wireMax, kf.to.wireMax, st);
     const targetDarkFloor = lerp(kf.from.darkFloor, kf.to.darkFloor, st);
@@ -309,7 +320,7 @@ export function PeristalticCore() {
         .lerp(scratch.accentColor, 0.72);
       material.color.lerp(scratch.tintedColor, colorAlpha);
       material.emissive.lerp(scratch.accentColor, colorAlpha);
-      material.emissiveIntensity = damp(material.emissiveIntensity, 0.22, 5.5, delta);
+      material.emissiveIntensity = damp(material.emissiveIntensity, 0.05, 5.5, delta);
     } else {
       material.color.lerp(scratch.baseColor, colorAlpha);
       material.emissive.lerp(scratch.blackColor, colorAlpha);

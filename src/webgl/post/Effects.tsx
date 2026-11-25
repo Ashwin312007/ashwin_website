@@ -69,7 +69,7 @@ export function Effects() {
       enableNormalPass={false}
       renderPriority={1}
     >
-      <Bloom intensity={0.55} luminanceThreshold={0.62} mipmapBlur />
+      <Bloom intensity={0.2} luminanceThreshold={0.95} mipmapBlur />
       <ChromaticAberration
         ref={chromaRef}
         offset={initialChromaOffset}

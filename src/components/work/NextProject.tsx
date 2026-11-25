@@ -35,7 +35,7 @@ export function NextProject({ project }: NextProjectProps) {
               <span className="opacity-75">{project.category}</span>
             </div>
 
-            <h2 className="mt-4 text-[clamp(1.8rem,4vw,3.6rem)] font-light leading-[1.06] tracking-[-0.02em] text-[#FAFAFA]">
+            <h2 className="mt-4 max-w-full break-words text-[clamp(1.8rem,4vw,3.6rem)] font-light leading-[1.1] tracking-[-0.02em] text-[#FAFAFA] [text-wrap:balance]">
               <LetterRoll text={project.title} trigger="hover" />
             </h2>
           </div>

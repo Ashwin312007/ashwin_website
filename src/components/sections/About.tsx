@@ -137,7 +137,7 @@ export function About() {
     <section
       id="about"
       ref={sectionRef}
-      className="relative min-h-[320vh] w-full px-6 py-28 md:px-10 lg:py-36"
+      className="relative w-full px-6 pt-28 pb-16 md:px-10 lg:pt-36 lg:pb-20"
     >
       <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-28">
         <div>
@@ -147,7 +147,7 @@ export function About() {
         </div>
 
         {/* Sticky overlapping split-name + portrait stage */}
-        <div className="relative flex min-h-[140vh] flex-col justify-center">
+        <div className="relative flex min-h-[95vh] flex-col justify-center">
           <div className="sticky top-16 flex min-h-[78vh] w-full items-center justify-center overflow-hidden">
             {/* Portrait frame tracked by WebGL View */}
             <div

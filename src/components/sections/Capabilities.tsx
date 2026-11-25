@@ -131,7 +131,7 @@ export function Capabilities() {
     <section
       id="capabilities"
       ref={sectionRef}
-      className="relative min-h-[280vh] w-full px-6 py-28 md:px-10 lg:py-36"
+      className="relative min-h-[240vh] w-full px-6 py-28 md:px-10 lg:py-36"
     >
       <div className="mx-auto w-full max-w-[1440px]">
         {/* Section header */}

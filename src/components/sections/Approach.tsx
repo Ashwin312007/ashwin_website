@@ -139,7 +139,7 @@ export function Approach() {
       ScrollTrigger.create({
         trigger: section,
         start: "top 60%",
-        end: "bottom 75%",
+        end: "bottom 96%",
         onEnter: () => {
           useAppStore.getState().set({
             surface: "light",
@@ -154,21 +154,21 @@ export function Approach() {
         },
       });
 
-      // Right column PROFILE.objective word opacity scrub 15% -> 100%
+      // Right column PROFILE.objective word opacity scrub 65% -> 100% (>=4.5:1 even before reveal)
       if (objective) {
         const words = objective.querySelectorAll<HTMLElement>("[data-approach-word]");
         if (reducedMotion) {
           gsap.set(words, { opacity: 1 });
         } else if (words.length > 0) {
-          gsap.set(words, { opacity: 0.15 });
+          gsap.set(words, { opacity: 0.65 });
           gsap.to(words, {
             opacity: 1,
             stagger: 0.04,
             ease: "none",
             scrollTrigger: {
               trigger: objective,
-              start: "top 80%",
-              end: "bottom 42%",
+              start: "top 88%",
+              end: "top 50%",
               scrub: 1,
             },
           });
@@ -219,25 +219,25 @@ export function Approach() {
         });
       }
 
-      // Exit: reverse TriangleWipe (progress 1 -> 0, origin [0.5, 0.92]) over last 40vh
+      // Exit: reverse TriangleWipe (progress 1 -> 0, origin [0.5, 0.05]) over exit zone
       if (exitZone) {
         ScrollTrigger.create({
           trigger: exitZone,
-          start: "top bottom",
-          end: "bottom bottom",
+          start: "top 42%",
+          end: "bottom 72%",
           scrub: true,
           onUpdate: (self) => {
             const p = reducedMotion ? (self.progress > 0.5 ? 1 : 0) : self.progress;
             const wipeProgress = 1 - p;
             const nextSurface = wipeProgress < 0.5 ? "dark" : "light";
             useAppStore.getState().set({
-              wipe: { progress: wipeProgress, origin: [0.5, 0.92] },
+              wipe: { progress: wipeProgress, origin: [0.5, 0.05] },
               surface: nextSurface,
             });
           },
           onLeave: () => {
             useAppStore.getState().set({
-              wipe: { progress: 0, origin: [0.5, 0.92] },
+              wipe: { progress: 0, origin: [0.5, 0.05] },
               surface: "dark",
             });
           },
@@ -258,7 +258,7 @@ export function Approach() {
     <section
       id="approach"
       ref={sectionRef}
-      className="relative min-h-[260vh] w-full text-[var(--surface-fg)]"
+      className="relative z-10 w-full text-[var(--surface-fg)]"
     >
       <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-20 px-6 pt-28 pb-16 md:px-10 lg:pt-36">
         {/* Two-line heading */}
@@ -341,8 +341,8 @@ export function Approach() {
         </div>
       </div>
 
-      {/* Last 40vh: reverses triangle wipe back to dark surface */}
-      <div ref={exitZoneRef} aria-hidden="true" className="h-[40vh] w-full" />
+      {/* Last 44vh: reverses triangle wipe back to dark surface */}
+      <div ref={exitZoneRef} aria-hidden="true" className="h-[44vh] w-full" />
     </section>
   );
 }
