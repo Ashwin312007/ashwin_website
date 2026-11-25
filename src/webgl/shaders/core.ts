@@ -14,7 +14,7 @@ float barycentricEdge(vec3 bary, float width) {
 export const CORE_DEFAULT_PARAMS = {
   baseRadius: 1.25,
   wave: 1.0,
-  noiseAmp: 0.03,
+  noiseAmp: 0.06,
   wireMin: 0.15,
   wireMax: 1.6,
   darkFloor: 0.12,
@@ -87,9 +87,8 @@ export const CORE_DITHER_FRAGMENT_GLSL = /* glsl */ `
 float lum = dot(gl_FragColor.rgb, vec3(0.2126, 0.7152, 0.0722));
 float wireW = mix(uWireMin, uWireMax, smoothstep(0.03, 0.85, lum));
 float edge = barycentricEdge(vBary, wireW);
-vec3 shell = gl_FragColor.rgb * uDarkFloor + vec3(0.06);
-vec3 wire = gl_FragColor.rgb * 1.8 + 0.12;
-float rim = pow(1.0 - abs(dot(normal, normalize(vViewPosition))), 3.0);
-gl_FragColor.rgb = mix(shell, wire, edge * smoothstep(0.0, 0.05, lum)) + vec3(0.18) * rim;
+vec3 shell = gl_FragColor.rgb * uDarkFloor;
+vec3 wire = gl_FragColor.rgb * 1.8 + 0.04;
+gl_FragColor.rgb = mix(shell, wire, edge * smoothstep(0.01, 0.12, lum));
 #include <dithering_fragment>
 `;

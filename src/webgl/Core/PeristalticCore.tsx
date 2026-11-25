@@ -35,48 +35,48 @@ const CORE_DETAIL_BY_TIER: Record<Tier, number> = {
 
 const CORE_KEYFRAMES: Record<CameraKey, CoreKeyframe> = {
   top: {
-    from: { x: 0, y: 0, z: 0, scale: 1, wireMin: 0.15, wireMax: 1.15, darkFloor: 0.5 },
-    to: { x: 0, y: 0, z: 0, scale: 1, wireMin: 0.15, wireMax: 1.15, darkFloor: 0.5 },
+    from: { x: 0, y: 0, z: 0, scale: 1, wireMin: 0.15, wireMax: 1.15, darkFloor: 0.12 },
+    to: { x: 0, y: 0, z: 0, scale: 1, wireMin: 0.15, wireMax: 1.15, darkFloor: 0.12 },
   },
   dive_in: {
-    from: { x: 0, y: 0, z: 0, scale: 1, wireMin: 0.15, wireMax: 1.15, darkFloor: 0.5 },
-    to: { x: 0, y: 0, z: 0, scale: 1, wireMin: 0.34, wireMax: 1.4, darkFloor: 0.4 },
+    from: { x: 0, y: 0, z: 0, scale: 1, wireMin: 0.15, wireMax: 1.15, darkFloor: 0.12 },
+    to: { x: 0, y: 0, z: 0, scale: 1, wireMin: 0.34, wireMax: 1.4, darkFloor: 0.08 },
   },
   approach: {
-    from: { x: 0, y: 0, z: 0, scale: 0, wireMin: 0.15, wireMax: 1.05, darkFloor: 0.5 },
-    to: { x: -2.6, y: 0, z: 0, scale: 0.55, wireMin: 0.12, wireMax: 0.95, darkFloor: 0.5 },
+    from: { x: 0, y: 0, z: 0, scale: 0, wireMin: 0.15, wireMax: 1.05, darkFloor: 0.12 },
+    to: { x: -2.6, y: 0, z: 0, scale: 0.55, wireMin: 0.12, wireMax: 0.95, darkFloor: 0.12 },
   },
   capabilities: {
-    from: { x: -2.6, y: 0, z: 0, scale: 0.55, wireMin: 0.12, wireMax: 0.95, darkFloor: 0.5 },
-    to: { x: -2.6, y: 0, z: 0, scale: 0.55, wireMin: 0.12, wireMax: 0.95, darkFloor: 0.5 },
+    from: { x: -2.6, y: 0, z: 0, scale: 0.55, wireMin: 0.12, wireMax: 0.95, darkFloor: 0.12 },
+    to: { x: -2.6, y: 0, z: 0, scale: 0.55, wireMin: 0.12, wireMax: 0.95, darkFloor: 0.12 },
   },
   work: {
-    from: { x: 2.25, y: 1.15, z: -0.4, scale: 0.35, wireMin: 0.15, wireMax: 1.05, darkFloor: 0.5 },
-    to: { x: 2.25, y: 1.15, z: -0.4, scale: 0.35, wireMin: 0.15, wireMax: 1.05, darkFloor: 0.5 },
+    from: { x: 2.25, y: 1.15, z: -0.4, scale: 0.35, wireMin: 0.15, wireMax: 1.05, darkFloor: 0.12 },
+    to: { x: 2.25, y: 1.15, z: -0.4, scale: 0.35, wireMin: 0.15, wireMax: 1.05, darkFloor: 0.12 },
   },
   experience: {
-    from: { x: 2.0, y: 1.05, z: -0.8, scale: 0.25, wireMin: 0.12, wireMax: 1.0, darkFloor: 0.5 },
-    to: { x: 1.2, y: 0.6, z: -0.4, scale: 0.45, wireMin: 0.14, wireMax: 1.05, darkFloor: 0.5 },
+    from: { x: 2.0, y: 1.05, z: -0.8, scale: 0.25, wireMin: 0.12, wireMax: 1.0, darkFloor: 0.12 },
+    to: { x: 1.2, y: 0.6, z: -0.4, scale: 0.45, wireMin: 0.14, wireMax: 1.05, darkFloor: 0.12 },
   },
   research: {
-    from: { x: 0, y: 0, z: 0, scale: 0.8, wireMin: 0.16, wireMax: 1.15, darkFloor: 0.5 },
-    to: { x: 0, y: 0, z: 0, scale: 0.8, wireMin: 0.16, wireMax: 1.15, darkFloor: 0.5 },
+    from: { x: 0, y: 0, z: 0, scale: 0.8, wireMin: 0.16, wireMax: 1.15, darkFloor: 0.12 },
+    to: { x: 0, y: 0, z: 0, scale: 0.8, wireMin: 0.16, wireMax: 1.15, darkFloor: 0.12 },
   },
   about: {
-    from: { x: 0, y: 0, z: 0, scale: 0, wireMin: 0.15, wireMax: 1.0, darkFloor: 0.5 },
-    to: { x: 0, y: 0, z: 0, scale: 0, wireMin: 0.15, wireMax: 1.0, darkFloor: 0.5 },
+    from: { x: 0, y: 0, z: 0, scale: 0, wireMin: 0.15, wireMax: 1.0, darkFloor: 0.12 },
+    to: { x: 0, y: 0, z: 0, scale: 0, wireMin: 0.15, wireMax: 1.0, darkFloor: 0.12 },
   },
   prefooter: {
-    from: { x: 0, y: 0, z: 0, scale: 0, wireMin: 0.15, wireMax: 1.0, darkFloor: 0.5 },
-    to: { x: 0, y: 0, z: 0, scale: 0, wireMin: 0.15, wireMax: 1.0, darkFloor: 0.5 },
+    from: { x: 0, y: 0, z: 0, scale: 0, wireMin: 0.15, wireMax: 1.0, darkFloor: 0.12 },
+    to: { x: 0, y: 0, z: 0, scale: 0, wireMin: 0.15, wireMax: 1.0, darkFloor: 0.12 },
   },
   footer: {
-    from: { x: 0, y: 0, z: 0, scale: 0, wireMin: 0.15, wireMax: 1.0, darkFloor: 0.5 },
-    to: { x: 0, y: 0, z: 0, scale: 0, wireMin: 0.15, wireMax: 1.0, darkFloor: 0.5 },
+    from: { x: 0, y: 0, z: 0, scale: 0, wireMin: 0.15, wireMax: 1.0, darkFloor: 0.12 },
+    to: { x: 0, y: 0, z: 0, scale: 0, wireMin: 0.15, wireMax: 1.0, darkFloor: 0.12 },
   },
   case: {
-    from: { x: 2.75, y: 0.25, z: -0.8, scale: 0.6, wireMin: 0.18, wireMax: 1.2, darkFloor: 0.5 },
-    to: { x: 2.75, y: 0.25, z: -0.8, scale: 0.6, wireMin: 0.18, wireMax: 1.2, darkFloor: 0.5 },
+    from: { x: 2.75, y: 0.25, z: -0.8, scale: 0.6, wireMin: 0.18, wireMax: 1.2, darkFloor: 0.12 },
+    to: { x: 2.75, y: 0.25, z: -0.8, scale: 0.6, wireMin: 0.18, wireMax: 1.2, darkFloor: 0.12 },
   },
 };
 
