@@ -87,8 +87,8 @@ export const CORE_DITHER_FRAGMENT_GLSL = /* glsl */ `
 float lum = dot(gl_FragColor.rgb, vec3(0.2126, 0.7152, 0.0722));
 float wireW = mix(uWireMin, uWireMax, smoothstep(0.03, 0.85, lum));
 float edge = barycentricEdge(vBary, wireW);
-vec3 shell = gl_FragColor.rgb * uDarkFloor;
+vec3 shell = gl_FragColor.rgb * uDarkFloor + vec3(0.06);
 vec3 wire = gl_FragColor.rgb * 1.8 + 0.04;
-gl_FragColor.rgb = mix(shell, wire, edge * smoothstep(0.01, 0.12, lum));
+gl_FragColor.rgb = mix(shell, wire, edge * smoothstep(0.0, 0.05, lum));
 #include <dithering_fragment>
 `;

@@ -39,14 +39,14 @@ export function createTriangleDitherMaterial(): TriangleDitherMaterialBundle {
   };
 
   const material = new THREE.MeshPhysicalMaterial({
-    color: "#d9d9d9",
-    metalness: 1,
-    roughness: 0.18,
-    clearcoat: 1,
-    clearcoatRoughness: 0.08,
-    iridescence: 0.35,
+    color: "#c9ccd1",
+    metalness: 0.7,
+    roughness: 0.42,
+    clearcoat: 0.3,
+    clearcoatRoughness: 0.35,
+    iridescence: 0.1,
     iridescenceIOR: 1.3,
-    envMapIntensity: 0.62,
+    envMapIntensity: 1.1,
     side: THREE.DoubleSide,
   });
 

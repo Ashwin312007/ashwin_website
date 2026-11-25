@@ -10,7 +10,7 @@ export function StudioEnvironment() {
         <color attach="background" args={["#040507"]} />
         <Lightformer
           form="rect"
-          intensity={1.35}
+          intensity={1.7}
           color="#ffffff"
           position={[0, 6, 2]}
           rotation={[Math.PI / 2, 0, 0]}
@@ -18,7 +18,7 @@ export function StudioEnvironment() {
         />
         <Lightformer
           form="rect"
-          intensity={0.32}
+          intensity={1.0}
           color="#e5e7eb"
           position={[-0.8, 3.0, 5.5]}
           rotation={[0.45, -0.15, 0]}
@@ -26,7 +26,7 @@ export function StudioEnvironment() {
         />
         <Lightformer
           form="rect"
-          intensity={1.05}
+          intensity={1.3}
           color="#dbeafe"
           position={[-6, 1.2, 1.5]}
           rotation={[0, Math.PI / 2, 0]}
@@ -34,7 +34,7 @@ export function StudioEnvironment() {
         />
         <Lightformer
           form="rect"
-          intensity={0.85}
+          intensity={0.7}
           color="#f5f5f5"
           position={[6, 1.5, 0.5]}
           rotation={[0, -Math.PI / 2, 0]}
@@ -50,7 +50,7 @@ export function StudioEnvironment() {
         />
       </Environment>
 
-      <directionalLight position={[3, 4, 2]} intensity={0.45} color="#ffffff" />
+      <directionalLight position={[3, 4, 2]} intensity={0.9} color="#ffffff" />
     </>
   );
 }
